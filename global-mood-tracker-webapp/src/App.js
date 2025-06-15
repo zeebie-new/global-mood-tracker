@@ -88,26 +88,27 @@ export default function App() {
     { name: "Bad", color: "#DC2626", emoji: "😞" },
   ];
 
-  const locationCoords = {
-    "New York": { lat: 40.7128, lng: -74.0060, country: "United States" },
-    "London": { lat: 51.5074, lng: -0.1278, country: "United Kingdom" },
-    "Tokyo": { lat: 35.6762, lng: 139.6503, country: "Japan" },
-    "Paris": { lat: 48.8566, lng: 2.3522, country: "France" },
-    "Sydney": { lat: -33.8688, lng: 151.2093, country: "Australia" },
-    "Mumbai": { lat: 19.0760, lng: 72.8777, country: "India" },
-    "São Paulo": { lat: -23.5505, lng: -46.6333, country: "Brazil" },
-    "Cairo": { lat: 30.0444, lng: 31.2357, country: "Egypt" },
-    "Moscow": { lat: 55.7558, lng: 37.6176, country: "Russia" },
-    "Beijing": { lat: 39.9042, lng: 116.4074, country: "China" },
-    "Lagos": { lat: 6.5244, lng: 3.3792, country: "Nigeria" },
-    "Mexico City": { lat: 19.4326, lng: -99.1332, country: "Mexico" },
-    "Toronto": { lat: 43.6532, lng: -79.3832, country: "Canada" },
-    "Berlin": { lat: 52.5200, lng: 13.4050, country: "Germany" },
-    "Bangkok": { lat: 13.7563, lng: 100.5018, country: "Thailand" },
-    "Dubai": { lat: 25.2048, lng: 55.2708, country: "UAE" },
-    "Seoul": { lat: 37.5665, lng: 126.9780, country: "South Korea" },
-    "Unknown": { lat: 0, lng: 0, country: "Unknown" }
-  };
+const locationCoords = {
+  "New York": { lat: 40.7128, lng: -74.0060, country: "United States", continent: "North America" },
+  "London": { lat: 51.5074, lng: -0.1278, country: "United Kingdom", continent: "Europe" },
+  "Tokyo": { lat: 35.6762, lng: 139.6503, country: "Japan", continent: "Asia" },
+  "Paris": { lat: 48.8566, lng: 2.3522, country: "France", continent: "Europe" },
+  "Sydney": { lat: -33.8688, lng: 151.2093, country: "Australia", continent: "Australia" },
+  "Mumbai": { lat: 19.0760, lng: 72.8777, country: "India", continent: "Asia" },
+  "São Paulo": { lat: -23.5505, lng: -46.6333, country: "Brazil", continent: "South America" },
+  "Cairo": { lat: 30.0444, lng: 31.2357, country: "Egypt", continent: "Africa" },
+  "Moscow": { lat: 55.7558, lng: 37.6176, country: "Russia", continent: "Europe/Asia" },
+  "Beijing": { lat: 39.9042, lng: 116.4074, country: "China", continent: "Asia" },
+  "Lagos": { lat: 6.5244, lng: 3.3792, country: "Nigeria", continent: "Africa" },
+  "Mexico City": { lat: 19.4326, lng: -99.1332, country: "Mexico", continent: "North America" },
+  "Toronto": { lat: 43.6532, lng: -79.3832, country: "Canada", continent: "North America" },
+  "Berlin": { lat: 52.5200, lng: 13.4050, country: "Germany", continent: "Europe" },
+  "Bangkok": { lat: 13.7563, lng: 100.5018, country: "Thailand", continent: "Asia" },
+  "Dubai": { lat: 25.2048, lng: 55.2708, country: "UAE", continent: "Asia" },
+  "Seoul": { lat: 37.5665, lng: 126.9780, country: "South Korea", continent: "Asia" },
+  "Unknown": { lat: 0, lng: 0, country: "Unknown", continent: "Unknown" }
+};
+
 
   // Load Three.js from CDN
   useEffect(() => {
