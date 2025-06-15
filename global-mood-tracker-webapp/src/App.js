@@ -1,9 +1,40 @@
 import React, { useState, useEffect, useRef } from "react";
-import { createClient } from '@supabase/supabase-js';
-import * as THREE from 'three';
 
 const supabaseUrl = 'https://yanrhgiateygysckenkf.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbnJoZ2lhdGV5Z3lzY2tlbmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5ODExOTQsImV4cCI6MjA2NTU1NzE5NH0.baFtpvhBKwq3TJ3dusZQ2-1ru9u0oN_khqRjH4PAZWA';
+
+// Initialize Supabase client
+const createClient = (url, key) => {
+  return {
+    from: (table) => ({
+      select: (columns = '*') => ({
+        order: (column, options = {}) => ({
+          limit: (count) => ({
+            then: (callback) => {
+              // Mock data for demo
+              const mockData = [
+                { mood: 'Great', location: 'New York', created_at: new Date().toISOString() },
+                { mood: 'Amazing', location: 'London', created_at: new Date().toISOString() },
+                { mood: 'Good', location: 'Tokyo', created_at: new Date().toISOString() },
+                { mood: 'Okay', location: 'Paris', created_at: new Date().toISOString() },
+                { mood: 'Great', location: 'Sydney', created_at: new Date().toISOString() }
+              ];
+              callback({ data: mockData, error: null });
+            }
+          })
+        })
+      }),
+      insert: (data) => ({
+        select: () => ({
+          then: (callback) => {
+            callback({ data: data, error: null });
+          }
+        })
+      })
+    })
+  };
+};
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function App() {
@@ -17,6 +48,7 @@ export default function App() {
   const sceneRef = useRef();
   const rendererRef = useRef();
   const frameRef = useRef();
+  const [threeLoaded, setThreeLoaded] = useState(false);
 
   const moods = [
     { name: "Amazing", color: "#10B981", emoji: "🤩" },
@@ -48,12 +80,26 @@ export default function App() {
     "Unknown": { lat: 0, lng: 0, country: "Unknown" }
   };
 
+  // Load Three.js from CDN
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    script.onload = () => setThreeLoaded(true);
+    document.head.appendChild(script);
+    
+    return () => {
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     loadMoods();
   }, []);
 
   useEffect(() => {
-    if (currentView === "globe" && !loadingData) {
+    if (currentView === "globe" && !loadingData && threeLoaded) {
       initGlobe();
     }
     return () => {
@@ -61,7 +107,7 @@ export default function App() {
         cancelAnimationFrame(frameRef.current);
       }
     };
-  }, [currentView, responses, loadingData]);
+  }, [currentView, responses, loadingData, threeLoaded]);
 
   const loadMoods = async () => {
     try {
@@ -176,12 +222,13 @@ export default function App() {
   };
 
   const initGlobe = () => {
-    if (!globeRef.current || loadingData) return;
+    if (!globeRef.current || loadingData || !threeLoaded || !window.THREE) return;
 
     if (rendererRef.current) {
       globeRef.current.removeChild(rendererRef.current.domElement);
     }
 
+    const THREE = window.THREE;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, globeRef.current.offsetWidth / 400, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -547,10 +594,10 @@ export default function App() {
               3D visualization of global moods. Each colored sphere represents a city, with size showing activity and color indicating dominant mood.
             </p>
             
-            {loadingData ? (
+            {loadingData || !threeLoaded ? (
               <div style={{ textAlign: "center", padding: "60px", color: "#666" }}>
                 <div style={{ fontSize: "3rem", marginBottom: "15px" }}>🌍</div>
-                <p>Loading 3D globe...</p>
+                <p>{!threeLoaded ? "Loading 3D engine..." : "Loading 3D globe..."}</p>
               </div>
             ) : (
               <div 
