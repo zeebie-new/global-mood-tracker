@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createClient } from '@supabase/supabase-js';
+
+// Replace these with your actual Supabase credentials
+const supabaseUrl = 'https://yanrhgiateygysckenkf.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbnJoZ2lhdGV5Z3lzY2tlbmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5ODExOTQsImV4cCI6MjA2NTU1NzE5NH0.baFtpvhBKwq3TJ3dusZQ2-1ru9u0oN_khqRjH4PAZWA';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function App() {
   const [mood, setMood] = useState("");
   const [location, setLocation] = useState("");
   const [responses, setResponses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
 
   const moods = [
     { name: "Amazing", color: "#10B981", emoji: "🤩" },
@@ -14,19 +22,79 @@ export default function App() {
     { name: "Bad", color: "#DC2626", emoji: "😞" },
   ];
 
-  const handleSubmit = () => {
+  // Load existing moods when component mounts
+  useEffect(() => {
+    loadMoods();
+  }, []);
+
+  const loadMoods = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('moods')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50); // Get last 50 moods
+
+      if (error) {
+        console.error('Error loading moods:', error);
+      } else {
+        // Convert to your existing format
+        const formattedMoods = data.map(item => ({
+          mood: item.mood,
+          location: item.location || "Unknown",
+          time: new Date(item.created_at).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        }));
+        setResponses(formattedMoods);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoadingData(false);
+    }
+  };
+
+  const handleSubmit = async () => {
     if (mood) {
-      const newResponse = {
-        mood,
-        location: location || "Unknown",
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      };
-      setResponses([...responses, newResponse]);
-      setMood("");
-      setLocation("");
+      setLoading(true);
+      
+      try {
+        // Save to Supabase
+        const { data, error } = await supabase
+          .from('moods')
+          .insert([
+            {
+              mood: mood,
+              location: location || null,
+            }
+          ])
+          .select();
+
+        if (error) {
+          console.error('Error saving mood:', error);
+          alert('Error saving mood. Please try again.');
+        } else {
+          // Add to local state for immediate UI update
+          const newResponse = {
+            mood,
+            location: location || "Unknown",
+            time: new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          };
+          setResponses([newResponse, ...responses]);
+          setMood("");
+          setLocation("");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error saving mood. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -92,6 +160,7 @@ export default function App() {
                 <button
                   key={m.name}
                   onClick={() => setMood(m.name)}
+                  disabled={loading}
                   style={{
                     display: "block",
                     width: "100%",
@@ -106,18 +175,19 @@ export default function App() {
                     borderRadius: "12px",
                     fontSize: "1.1rem",
                     fontWeight: "600",
-                    cursor: "pointer",
+                    cursor: loading ? "not-allowed" : "pointer",
                     transition: "all 0.2s ease",
                     transform: mood === m.name ? "scale(1.02)" : "scale(1)",
+                    opacity: loading ? 0.7 : 1,
                   }}
                   onMouseOver={(e) => {
-                    if (mood !== m.name) {
+                    if (mood !== m.name && !loading) {
                       e.target.style.backgroundColor = "#e9ecef";
                       e.target.style.transform = "scale(1.01)";
                     }
                   }}
                   onMouseOut={(e) => {
-                    if (mood !== m.name) {
+                    if (mood !== m.name && !loading) {
                       e.target.style.backgroundColor = "#f8f9fa";
                       e.target.style.transform = "scale(1)";
                     }
@@ -134,6 +204,7 @@ export default function App() {
               placeholder="📍 Your location (optional)"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              disabled={loading}
               style={{
                 width: "100%",
                 padding: "15px",
@@ -143,42 +214,43 @@ export default function App() {
                 marginBottom: "20px",
                 outline: "none",
                 transition: "border-color 0.2s ease",
+                opacity: loading ? 0.7 : 1,
               }}
-              onFocus={(e) => (e.target.style.borderColor = "#667eea")}
+              onFocus={(e) => !loading && (e.target.style.borderColor = "#667eea")}
               onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
             />
 
             {/* Submit Button */}
             <button
               onClick={handleSubmit}
-              disabled={!mood}
+              disabled={!mood || loading}
               style={{
                 width: "100%",
                 padding: "18px",
                 fontSize: "1.2rem",
                 fontWeight: "700",
-                backgroundColor: mood ? "#667eea" : "#ccc",
+                backgroundColor: mood && !loading ? "#667eea" : "#ccc",
                 color: "white",
                 border: "none",
                 borderRadius: "12px",
-                cursor: mood ? "pointer" : "not-allowed",
+                cursor: mood && !loading ? "pointer" : "not-allowed",
                 transition: "all 0.2s ease",
-                transform: mood ? "scale(1)" : "scale(0.98)",
+                transform: mood && !loading ? "scale(1)" : "scale(0.98)",
               }}
               onMouseOver={(e) => {
-                if (mood) {
+                if (mood && !loading) {
                   e.target.style.backgroundColor = "#5a67d8";
                   e.target.style.transform = "scale(1.02)";
                 }
               }}
               onMouseOut={(e) => {
-                if (mood) {
+                if (mood && !loading) {
                   e.target.style.backgroundColor = "#667eea";
                   e.target.style.transform = "scale(1)";
                 }
               }}
             >
-              {mood ? "✨ Share My Mood" : "Select a mood first"}
+              {loading ? "✨ Saving..." : mood ? "✨ Share My Mood" : "Select a mood first"}
             </button>
           </div>
 
@@ -204,7 +276,19 @@ export default function App() {
               🌟 Live Responses ({responses.length})
             </h2>
 
-            {responses.length === 0 ? (
+            {loadingData ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "40px 20px",
+                  color: "#666",
+                  fontSize: "1.1rem",
+                }}
+              >
+                <div style={{ fontSize: "3rem", marginBottom: "15px" }}>⏳</div>
+                <p>Loading moods...</p>
+              </div>
+            ) : responses.length === 0 ? (
               <div
                 style={{
                   textAlign: "center",
@@ -228,8 +312,7 @@ export default function App() {
                 }}
               >
                 {responses
-                  .slice(-10)
-                  .reverse()
+                  .slice(0, 10)
                   .map((response, index) => {
                     const moodData = getMoodData(response.mood);
                     return (
@@ -308,7 +391,7 @@ export default function App() {
                   </div>
                   <div>
                     🕒 Latest:{" "}
-                    <strong>{responses[responses.length - 1]?.mood}</strong>
+                    <strong>{responses[0]?.mood}</strong>
                   </div>
                 </div>
               </div>
