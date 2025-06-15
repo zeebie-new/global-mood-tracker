@@ -3,31 +3,60 @@ import React, { useState, useEffect, useRef } from "react";
 const supabaseUrl = 'https://yanrhgiateygysckenkf.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbnJoZ2lhdGV5Z3lzY2tlbmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5ODExOTQsImV4cCI6MjA2NTU1NzE5NH0.baFtpvhBKwq3TJ3dusZQ2-1ru9u0oN_khqRjH4PAZWA';
 
-// Initialize Supabase client
+// Proper Supabase client implementation
 const createClient = (url, key) => {
+  const apiUrl = `${url}/rest/v1`;
+  
+  const makeRequest = async (endpoint, options = {}) => {
+    const response = await fetch(`${apiUrl}${endpoint}`, {
+      headers: {
+        'apikey': key,
+        'Authorization': `Bearer ${key}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+        ...options.headers
+      },
+      ...options
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      return { data: null, error: data };
+    }
+    
+    return { data, error: null };
+  };
+  
   return {
     from: (table) => ({
       select: (columns = '*') => ({
         order: (column, options = {}) => ({
           limit: (count) => ({
-            then: (callback) => {
-              // Mock data for demo
-              const mockData = [
-                { mood: 'Great', location: 'New York', created_at: new Date().toISOString() },
-                { mood: 'Amazing', location: 'London', created_at: new Date().toISOString() },
-                { mood: 'Good', location: 'Tokyo', created_at: new Date().toISOString() },
-                { mood: 'Okay', location: 'Paris', created_at: new Date().toISOString() },
-                { mood: 'Great', location: 'Sydney', created_at: new Date().toISOString() }
-              ];
-              callback({ data: mockData, error: null });
+            then: async (callback) => {
+              try {
+                const orderParam = options.ascending === false ? `${column}.desc` : `${column}.asc`;
+                const result = await makeRequest(`/${table}?select=${columns}&order=${orderParam}&limit=${count}`);
+                callback(result);
+              } catch (error) {
+                callback({ data: null, error });
+              }
             }
           })
         })
       }),
       insert: (data) => ({
         select: () => ({
-          then: (callback) => {
-            callback({ data: data, error: null });
+          then: async (callback) => {
+            try {
+              const result = await makeRequest(`/${table}`, {
+                method: 'POST',
+                body: JSON.stringify(data)
+              });
+              callback(result);
+            } catch (error) {
+              callback({ data: null, error });
+            }
           }
         })
       })
@@ -119,6 +148,7 @@ export default function App() {
 
       if (error) {
         console.error('Error loading moods:', error);
+        setResponses([]); // Set empty array if error
       } else {
         const formattedMoods = data.map(item => ({
           mood: item.mood,
@@ -134,6 +164,7 @@ export default function App() {
       }
     } catch (error) {
       console.error('Error:', error);
+      setResponses([]); // Set empty array if error
     } finally {
       setLoadingData(false);
     }
@@ -224,6 +255,7 @@ export default function App() {
   const initGlobe = () => {
     if (!globeRef.current || loadingData || !threeLoaded || !window.THREE) return;
 
+    // Clean up previous globe
     if (rendererRef.current) {
       globeRef.current.removeChild(rendererRef.current.domElement);
     }
@@ -234,32 +266,34 @@ export default function App() {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     
     renderer.setSize(globeRef.current.offsetWidth, 400);
-    renderer.setClearColor(0x000000, 0);
+    renderer.setClearColor(0x0f172a, 1);
     globeRef.current.appendChild(renderer.domElement);
     
     sceneRef.current = scene;
     rendererRef.current = renderer;
 
+    // Create Earth globe with better materials
     const globeGeometry = new THREE.SphereGeometry(2, 64, 64);
-    const globeMaterial = new THREE.MeshPhongMaterial({
-      color: 0x2563eb,
+    const globeMaterial = new THREE.MeshLambertMaterial({
+      color: 0x1e40af,
       transparent: true,
-      opacity: 0.8,
-      wireframe: false
+      opacity: 0.7
     });
     const globe = new THREE.Mesh(globeGeometry, globeMaterial);
     scene.add(globe);
 
-    const wireframeGeometry = new THREE.SphereGeometry(2.01, 32, 32);
-    const wireframeMaterial = new THREE.MeshBasicMaterial({
+    // Add atmosphere glow
+    const atmosphereGeometry = new THREE.SphereGeometry(2.1, 32, 32);
+    const atmosphereMaterial = new THREE.MeshBasicMaterial({
       color: 0x4f46e5,
-      wireframe: true,
       transparent: true,
-      opacity: 0.1
+      opacity: 0.1,
+      side: THREE.BackSide
     });
-    const wireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
-    scene.add(wireframe);
+    const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+    scene.add(atmosphere);
 
+    // Process mood data and create points
     const moodDistribution = {};
     responses.forEach(response => {
       const loc = response.location;
@@ -270,10 +304,12 @@ export default function App() {
       moodDistribution[loc][response.mood]++;
     });
 
+    // Create mood points on globe
     Object.entries(moodDistribution).forEach(([location, moodCounts]) => {
       const coords = locationCoords[location];
       if (!coords || (coords.lat === 0 && coords.lng === 0 && location !== "Unknown")) return;
 
+      // Find dominant mood
       let dominantMood = "Okay";
       let maxCount = 0;
       Object.entries(moodCounts).forEach(([mood, count]) => {
@@ -286,50 +322,56 @@ export default function App() {
       const moodData = getMoodData(dominantMood);
       const color = new THREE.Color(moodData?.color || "#F59E0B");
       
+      // Convert lat/lng to 3D coordinates
       const phi = (90 - coords.lat) * (Math.PI / 180);
       const theta = (coords.lng + 180) * (Math.PI / 180);
       
-      const x = 2.1 * Math.sin(phi) * Math.cos(theta);
-      const y = 2.1 * Math.cos(phi);
-      const z = 2.1 * Math.sin(phi) * Math.sin(theta);
+      const x = 2.15 * Math.sin(phi) * Math.cos(theta);
+      const y = 2.15 * Math.cos(phi);
+      const z = 2.15 * Math.sin(phi) * Math.sin(theta);
 
+      // Size based on total responses
       const totalMoods = Object.values(moodCounts).reduce((a, b) => a + b, 0);
-      const size = Math.max(0.05, Math.min(0.3, totalMoods * 0.02));
+      const size = Math.max(0.08, Math.min(0.25, totalMoods * 0.03));
       
+      // Create main point
       const pointGeometry = new THREE.SphereGeometry(size, 16, 16);
-      const pointMaterial = new THREE.MeshPhongMaterial({
+      const pointMaterial = new THREE.MeshBasicMaterial({
         color: color,
-        transparent: true,
-        opacity: 0.9
+        transparent: false
       });
       const point = new THREE.Mesh(pointGeometry, pointMaterial);
       point.position.set(x, y, z);
       scene.add(point);
 
-      const glowGeometry = new THREE.SphereGeometry(size * 1.5, 16, 16);
+      // Create glow effect
+      const glowGeometry = new THREE.SphereGeometry(size * 1.8, 12, 12);
       const glowMaterial = new THREE.MeshBasicMaterial({
         color: color,
         transparent: true,
-        opacity: 0.3
+        opacity: 0.4
       });
       const glow = new THREE.Mesh(glowGeometry, glowMaterial);
       glow.position.set(x, y, z);
       scene.add(glow);
     });
 
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+    // Improved lighting
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.8);
     scene.add(ambientLight);
     
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(5, 5, 5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    directionalLight.position.set(5, 3, 5);
     scene.add(directionalLight);
 
-    camera.position.z = 5;
+    // Position camera
+    camera.position.set(0, 0, 5);
 
+    // Animation loop
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate);
-      globe.rotation.y += 0.005;
-      wireframe.rotation.y += 0.005;
+      globe.rotation.y += 0.003;
+      atmosphere.rotation.y += 0.002;
       renderer.render(scene, camera);
     };
     animate();
@@ -505,7 +547,7 @@ export default function App() {
               ) : countryStats.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "40px 20px", color: "#666" }}>
                   <div style={{ fontSize: "3rem", marginBottom: "15px" }}>🎭</div>
-                  <p>No responses yet!</p>
+                  <p>No responses yet! Be the first to share your mood.</p>
                 </div>
               ) : (
                 <div style={{ maxHeight: "450px", overflowY: "auto" }}>
@@ -598,6 +640,11 @@ export default function App() {
               <div style={{ textAlign: "center", padding: "60px", color: "#666" }}>
                 <div style={{ fontSize: "3rem", marginBottom: "15px" }}>🌍</div>
                 <p>{!threeLoaded ? "Loading 3D engine..." : "Loading 3D globe..."}</p>
+              </div>
+            ) : responses.length === 0 ? (
+              <div style={{ textAlign: "center", padding: "60px", color: "#666" }}>
+                <div style={{ fontSize: "3rem", marginBottom: "15px" }}>🌍</div>
+                <p>No mood data to display yet. Share your mood first!</p>
               </div>
             ) : (
               <div 
