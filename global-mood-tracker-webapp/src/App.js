@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createClient } from '@supabase/supabase-js';
 
-// Replace these with your actual Supabase credentials
 const supabaseUrl = 'https://yanrhgiateygysckenkf.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbnJoZ2lhdGV5Z3lzY2tlbmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5ODExOTQsImV4cCI6MjA2NTU1NzE5NH0.baFtpvhBKwq3TJ3dusZQ2-1ru9u0oN_khqRjH4PAZWA';
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -12,7 +11,7 @@ export default function App() {
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
-  const [currentView, setCurrentView] = useState("form"); // "form" or "globe"
+  const [currentView, setCurrentView] = useState("form");
 
   const moods = [
     { name: "Amazing", color: "#10B981", emoji: "🤩" },
@@ -23,7 +22,6 @@ export default function App() {
     { name: "Bad", color: "#DC2626", emoji: "😞" },
   ];
 
-  // Geographic coordinates for major cities/regions (simplified)
   const locationCoords = {
     "New York": { lat: 40.7128, lng: -74.0060 },
     "London": { lat: 51.5074, lng: -0.1278 },
@@ -43,7 +41,6 @@ export default function App() {
     "Unknown": { lat: 0, lng: 0 }
   };
 
-  // Load existing moods when component mounts
   useEffect(() => {
     loadMoods();
   }, []);
@@ -54,7 +51,7 @@ export default function App() {
         .from('moods')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(100); // Get more for the map
+        .limit(100);
 
       if (error) {
         console.error('Error loading moods:', error);
@@ -120,7 +117,6 @@ export default function App() {
 
   const getMoodData = (moodName) => moods.find((m) => m.name === moodName);
 
-  // Get mood distribution for the globe
   const getMoodDistribution = () => {
     const distribution = {};
     responses.forEach(response => {
@@ -160,23 +156,19 @@ export default function App() {
         viewBox="0 0 800 400"
         style={{ width: "100%", height: "100%", backgroundColor: "#1e293b" }}
       >
-        {/* Simple world map representation */}
         <rect width="800" height="400" fill="#1e293b" />
         
-        {/* Continents (simplified shapes) */}
-        <path d="M100 150 L200 120 L300 140 L250 200 L150 220 Z" fill="#374151" /> {/* Europe */}
-        <path d="M300 140 L450 120 L500 180 L400 240 L320 200 Z" fill="#374151" /> {/* Asia */}
-        <path d="M80 160 L180 150 L200 200 L120 250 L60 220 Z" fill="#374151" /> {/* Africa */}
-        <path d="M20 80 L150 60 L180 120 L50 140 Z" fill="#374151" /> {/* North America */}
-        <path d="M40 220 L120 200 L140 280 L80 300 Z" fill="#374151" /> {/* South America */}
-        <path d="M550 250 L650 240 L680 290 L580 300 Z" fill="#374151" /> {/* Australia */}
+        <path d="M100 150 L200 120 L300 140 L250 200 L150 220 Z" fill="#374151" />
+        <path d="M300 140 L450 120 L500 180 L400 240 L320 200 Z" fill="#374151" />
+        <path d="M80 160 L180 150 L200 200 L120 250 L60 220 Z" fill="#374151" />
+        <path d="M20 80 L150 60 L180 120 L50 140 Z" fill="#374151" />
+        <path d="M40 220 L120 200 L140 280 L80 300 Z" fill="#374151" />
+        <path d="M550 250 L650 240 L680 290 L580 300 Z" fill="#374151" />
         
-        {/* Mood points */}
         {Object.entries(moodDistribution).map(([location, moods]) => {
           const coords = locationCoords[location] || locationCoords["Unknown"];
           if (coords.lat === 0 && coords.lng === 0 && location !== "Unknown") return null;
           
-          // Convert lat/lng to SVG coordinates (simplified projection)
           const x = ((coords.lng + 180) / 360) * 800;
           const y = ((90 - coords.lat) / 180) * 400;
           
@@ -201,7 +193,9 @@ export default function App() {
                 r={size + 5}
                 fill={color}
                 opacity={0.3}
-                className="mood-pulse"
+                style={{
+                  animation: "pulse 2s infinite"
+                }}
               />
               <text
                 x={x}
@@ -218,7 +212,6 @@ export default function App() {
         })}
       </svg>
       
-      {/* Legend */}
       <div
         style={{
           position: "absolute",
@@ -248,14 +241,11 @@ export default function App() {
         ))}
       </div>
       
-      <style jsx>{`
+      <style>{`
         @keyframes pulse {
           0% { transform: scale(1); opacity: 0.8; }
           50% { transform: scale(1.2); opacity: 0.4; }
           100% { transform: scale(1); opacity: 0.8; }
-        }
-        .mood-pulse {
-          animation: pulse 2s infinite;
         }
       `}</style>
     </div>
@@ -271,7 +261,6 @@ export default function App() {
       }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <h1
             style={{
@@ -293,7 +282,6 @@ export default function App() {
             Share your mood and see how the world is feeling
           </p>
           
-          {/* View Toggle */}
           <div style={{ marginTop: "20px" }}>
             <button
               onClick={() => setCurrentView("form")}
@@ -331,7 +319,6 @@ export default function App() {
 
         {currentView === "form" ? (
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "30px" }}>
-            {/* Input Side */}
             <div
               style={{
                 backgroundColor: "white",
@@ -344,7 +331,6 @@ export default function App() {
                 Share Your Mood
               </h2>
 
-              {/* Mood Buttons */}
               <div style={{ marginBottom: "25px" }}>
                 {moods.map((m) => (
                   <button
@@ -373,7 +359,6 @@ export default function App() {
                 ))}
               </div>
 
-              {/* Location Input */}
               <input
                 type="text"
                 placeholder="📍 Your city (e.g., New York, London, Tokyo)"
@@ -393,7 +378,6 @@ export default function App() {
                 }}
               />
 
-              {/* Submit Button */}
               <button
                 onClick={handleSubmit}
                 disabled={!mood || loading}
@@ -414,7 +398,6 @@ export default function App() {
               </button>
             </div>
 
-            {/* Results Side */}
             <div
               style={{
                 backgroundColor: "white",
@@ -473,7 +456,6 @@ export default function App() {
             </div>
           </div>
         ) : (
-          /* Globe View */
           <div
             style={{
               backgroundColor: "white",
@@ -498,7 +480,6 @@ export default function App() {
               <WorldMap />
             )}
             
-            {/* Global Stats */}
             {responses.length > 0 && (
               <div style={{ marginTop: "30px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
                 <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "12px" }}>
