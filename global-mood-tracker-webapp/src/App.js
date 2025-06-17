@@ -14,7 +14,7 @@ const createClient = (url, key) => {
         'Authorization': `Bearer ${key}`,
         'Content-Type': 'application/json',
         'Prefer': 'return=representation',
-        ...options.headers
+        ...options.headers               
       },
       ...options
     });
