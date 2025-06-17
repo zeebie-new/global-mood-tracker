@@ -616,7 +616,7 @@ export default function App() {
                       <div
                         key={index}
                         style={{
-                          padding: " "20px",
+                          padding: " 20px",
                           marginBottom: "15px",
                           backgroundColor: "#f8f9fa",
                           borderRadius: "15px",
