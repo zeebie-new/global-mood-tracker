@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const supabaseUrl = 'https://yanrhgiateygysckenkf.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlhbnJoZ2lhdGV5Z3lzY2tlbmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5ODExOTQsImV4cCI6MjA2NTU1NzE5NH0.baFtpvhBKwq3TJ3dusZQ2-1ru9u0oN_khqRjH4PAZWA';
@@ -73,6 +73,9 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [currentView, setCurrentView] = useState("form");
+  const mapRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+  const markersRef = useRef([]);
 
   const wellbeingStates = [
     { name: "Thriving", color: "#059669", emoji: "🌟" },
@@ -85,7 +88,111 @@ export default function App() {
     { name: "Struggling", color: "#7f1d1d", emoji: "💪" },
   ];
 
-  // Fixed continent mapping with more comprehensive city coverage
+  // City coordinates for mapping
+  const cityCoordinates = {
+    // North America
+    'new york': [40.7128, -74.0060],
+    'toronto': [43.6532, -79.3832],
+    'mexico city': [19.4326, -99.1332],
+    'los angeles': [34.0522, -118.2437],
+    'chicago': [41.8781, -87.6298],
+    'vancouver': [49.2827, -123.1207],
+    'montreal': [45.5017, -73.5673],
+    'san francisco': [37.7749, -122.4194],
+    'washington': [38.9072, -77.0369],
+    'boston': [42.3601, -71.0589],
+    'seattle': [47.6062, -122.3321],
+    'miami': [25.7617, -80.1918],
+    'orlando': [28.5383, -81.3792],
+    'tampa': [27.9506, -82.4572],
+    'dallas': [32.7767, -96.7970],
+    'atlanta': [33.7490, -84.3880],
+    'phoenix': [33.4484, -112.0740],
+    'denver': [39.7392, -104.9903],
+    'detroit': [42.3314, -83.0458],
+    'philadelphia': [39.9526, -75.1652],
+    'houston': [29.7604, -95.3698],
+    'las vegas': [36.1699, -115.1398],
+    
+    // Europe
+    'london': [51.5074, -0.1278],
+    'paris': [48.8566, 2.3522],
+    'berlin': [52.5200, 13.4050],
+    'moscow': [55.7558, 37.6176],
+    'madrid': [40.4168, -3.7038],
+    'rome': [41.9028, 12.4964],
+    'amsterdam': [52.3676, 4.9041],
+    'barcelona': [41.3851, 2.1734],
+    'vienna': [48.2082, 16.3738],
+    'prague': [50.0755, 14.4378],
+    'stockholm': [59.3293, 18.0686],
+    'oslo': [59.9139, 10.7522],
+    'copenhagen': [55.6761, 12.5683],
+    'dublin': [53.3498, -6.2603],
+    'zurich': [47.3769, 8.5417],
+    'brussels': [50.8503, 4.3517],
+    
+    // Asia
+    'tokyo': [35.6762, 139.6503],
+    'mumbai': [19.0760, 72.8777],
+    'beijing': [39.9042, 116.4074],
+    'bangkok': [13.7563, 100.5018],
+    'dubai': [25.2048, 55.2708],
+    'seoul': [37.5665, 126.9780],
+    'shanghai': [31.2304, 121.4737],
+    'delhi': [28.7041, 77.1025],
+    'singapore': [1.3521, 103.8198],
+    'hong kong': [22.3193, 114.1694],
+    'taipei': [25.0330, 121.5654],
+    'manila': [14.5995, 120.9842],
+    'jakarta': [6.2088, 106.8456],
+    'kuala lumpur': [3.1390, 101.6869],
+    'riyadh': [24.7136, 46.6753],
+    'doha': [25.2760, 51.5200],
+    'lahore': [31.5497, 74.3436],
+    'karachi': [24.8607, 67.0011],
+    'islamabad': [33.6844, 73.0479],
+    
+    // Africa
+    'cairo': [30.0444, 31.2357],
+    'lagos': [6.5244, 3.3792],
+    'cape town': [-33.9249, 18.4241],
+    'johannesburg': [-26.2041, 28.0473],
+    'nairobi': [-1.2921, 36.8219],
+    'casablanca': [33.5731, -7.5898],
+    'tunis': [36.8065, 10.1815],
+    'accra': [5.6037, -0.1870],
+    'addis ababa': [9.1450, 38.7617],
+    'dar es salaam': [-6.7924, 39.2083],
+    
+    // South America
+    'são paulo': [-23.5558, -46.6396],
+    'sao paulo': [-23.5558, -46.6396],
+    'rio de janeiro': [-22.9068, -43.1729],
+    'buenos aires': [-34.6118, -58.3960],
+    'lima': [-12.0464, -77.0428],
+    'bogotá': [4.7110, -74.0721],
+    'bogota': [4.7110, -74.0721],
+    'santiago': [-33.4489, -70.6693],
+    'caracas': [10.4806, -66.9036],
+    'quito': [-0.1807, -78.4678],
+    
+    // Australia/Oceania
+    'sydney': [-33.8688, 151.2093],
+    'melbourne': [-37.8136, 144.9631],
+    'brisbane': [-27.4698, 153.0251],
+    'perth': [-31.9505, 115.8605],
+    'adelaide': [-34.9285, 138.6007],
+    'auckland': [-36.8485, 174.7633],
+    'wellington': [-41.2865, 174.7762]
+  };
+
+  const getCoordinatesFromLocation = (locationStr) => {
+    if (!locationStr) return null;
+    const normalized = locationStr.toLowerCase().trim();
+    return cityCoordinates[normalized] || null;
+  };
+
   const getContinentFromLocation = (location) => {
     if (!location || location.trim() === "") {
       return "Unknown";
@@ -93,7 +200,7 @@ export default function App() {
     
     const locationLower = location.toLowerCase().trim();
     
-    // North America - Added Orlando, Miami, and more US cities
+    // North America
     if (locationLower.includes('new york') || locationLower.includes('toronto') || 
         locationLower.includes('mexico city') || locationLower.includes('los angeles') || 
         locationLower.includes('chicago') || locationLower.includes('vancouver') || 
@@ -185,8 +292,191 @@ export default function App() {
       return "Australia";
     }
     
-    // Return "Unknown" instead of defaulting to Asia
     return "Unknown";
+  };
+
+  // Initialize Leaflet map
+  useEffect(() => {
+    if (currentView === "map" && mapRef.current && !mapInstanceRef.current) {
+      // Load Leaflet CSS and JS dynamically
+      const loadLeaflet = async () => {
+        // Load CSS
+        if (!document.querySelector('link[href*="leaflet"]')) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css';
+          document.head.appendChild(link);
+        }
+
+        // Load JS
+        if (!window.L) {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js';
+          document.head.appendChild(script);
+          
+          await new Promise((resolve) => {
+            script.onload = resolve;
+          });
+        }
+
+        // Initialize map
+        if (window.L && mapRef.current) {
+          mapInstanceRef.current = window.L.map(mapRef.current, {
+            center: [20, 0],
+            zoom: 2,
+            zoomControl: true,
+            worldCopyJump: true,
+            maxBounds: [[-90, -180], [90, 180]],
+            maxBoundsViscosity: 1.0
+          });
+
+          // Add beautiful tile layer
+          window.L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CartoDB',
+            subdomains: 'abcd',
+            maxZoom: 19
+          }).addTo(mapInstanceRef.current);
+
+          // Update markers when map is ready
+          updateMapMarkers();
+        }
+      };
+
+      loadLeaflet();
+    }
+  }, [currentView]);
+
+  // Update map markers when responses change
+  useEffect(() => {
+    if (mapInstanceRef.current && currentView === "map") {
+      updateMapMarkers();
+    }
+  }, [responses, currentView]);
+
+  const updateMapMarkers = () => {
+    if (!mapInstanceRef.current || !window.L) return;
+
+    // Clear existing markers
+    markersRef.current.forEach(marker => {
+      mapInstanceRef.current.removeLayer(marker);
+    });
+    markersRef.current = [];
+
+    // Group responses by location
+    const locationGroups = {};
+    responses.forEach(response => {
+      const coords = getCoordinatesFromLocation(response.location);
+      if (coords) {
+        const key = `${coords[0]},${coords[1]}`;
+        if (!locationGroups[key]) {
+          locationGroups[key] = {
+            coords,
+            location: response.location,
+            responses: []
+          };
+        }
+        locationGroups[key].responses.push(response);
+      }
+    });
+
+    // Create markers for each location group
+    Object.values(locationGroups).forEach(group => {
+      const { coords, location, responses: locationResponses } = group;
+      
+      // Count feelings for this location
+      const feelingCounts = {};
+      locationResponses.forEach(r => {
+        feelingCounts[r.feeling] = (feelingCounts[r.feeling] || 0) + 1;
+      });
+
+      // Find dominant feeling
+      let dominantFeeling = "Balanced";
+      let maxCount = 0;
+      Object.entries(feelingCounts).forEach(([feeling, count]) => {
+        if (count > maxCount) {
+          maxCount = count;
+          dominantFeeling = feeling;
+        }
+      });
+
+      const feelingData = wellbeingStates.find(s => s.name === dominantFeeling);
+      const size = Math.min(Math.max(locationResponses.length * 3, 15), 40);
+
+      // Create custom icon
+      const icon = window.L.divIcon({
+        className: 'custom-marker',
+        html: `
+          <div style="
+            width: ${size}px;
+            height: ${size}px;
+            background: ${feelingData?.color || '#0d9488'};
+            border: 3px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: ${Math.max(size * 0.4, 10)}px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+          ">${feelingData?.emoji || '⚖️'}</div>
+          <style>
+            @keyframes pulse {
+              0% { transform: scale(1); }
+              50% { transform: scale(1.1); }
+              100% { transform: scale(1); }
+            }
+          </style>
+        `,
+        iconSize: [size, size],
+        iconAnchor: [size/2, size/2]
+      });
+
+      // Create marker
+      const marker = window.L.marker(coords, { icon }).addTo(mapInstanceRef.current);
+
+      // Create popup content
+      const popupContent = `
+        <div style="min-width: 200px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+          <h3 style="margin: 0 0 10px 0; color: #333; font-size: 1.2rem;">📍 ${location}</h3>
+          <p style="margin: 0 0 10px 0; color: #666;">
+            <strong>${locationResponses.length}</strong> ${locationResponses.length === 1 ? 'response' : 'responses'}
+          </p>
+          <div style="margin-bottom: 10px;">
+            <div style="
+              background: ${feelingData?.color || '#0d9488'};
+              color: white;
+              padding: 8px 12px;
+              border-radius: 20px;
+              display: inline-block;
+              font-weight: bold;
+              margin-bottom: 8px;
+            ">
+              ${feelingData?.emoji || '⚖️'} ${dominantFeeling}
+            </div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+            ${Object.entries(feelingCounts).map(([feeling, count]) => {
+              const state = wellbeingStates.find(s => s.name === feeling);
+              return `
+                <div style="
+                  background: ${state?.color || '#ccc'};
+                  color: white;
+                  padding: 2px 6px;
+                  border-radius: 10px;
+                  font-size: 0.75rem;
+                  font-weight: 600;
+                ">
+                  ${state?.emoji || '⚖️'} ${count}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+
+      marker.bindPopup(popupContent);
+      markersRef.current.push(marker);
+    });
   };
 
   useEffect(() => {
@@ -312,149 +602,6 @@ export default function App() {
 
   const continentStats = getContinentStats();
 
-  const ContinentMap = () => {
-    const continentColors = {};
-    continentStats.forEach(stat => {
-      continentColors[stat.continent] = stat.dominantColor;
-    });
-
-    return (
-      <div style={{ textAlign: "center", padding: "20px" }}>
-        <svg width="1200" height="700" viewBox="0 0 1200 700" style={{ maxWidth: "100%", height: "auto", backgroundColor: "#2563eb", border: "4px solid #1e40af", borderRadius: "20px", boxShadow: "0 10px 30px rgba(0,0,0,0.2)" }}>
-          {/* Ocean background with subtle gradient */}
-          <defs>
-            <radialGradient id="oceanGradient" cx="50%" cy="50%" r="70%">
-              <stop offset="0%" stopColor="#3b82f6"/>
-              <stop offset="100%" stopColor="#1e40af"/>
-            </radialGradient>
-            <pattern id="waves" x="0" y="0" width="60" height="30" patternUnits="userSpaceOnUse">
-              <path d="M0 15 Q15 8 30 15 T60 15" stroke="#60a5fa" strokeWidth="1.5" fill="none" opacity="0.3"/>
-              <path d="M0 20 Q20 13 40 20 T80 20" stroke="#93c5fd" strokeWidth="1" fill="none" opacity="0.2"/>
-            </pattern>
-            <filter id="continentShadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="3" dy="3" stdDeviation="2" floodOpacity="0.3"/>
-            </filter>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#oceanGradient)"/>
-          <rect width="100%" height="100%" fill="url(#waves)"/>
-
-          {/* North America - Improved shape */}
-          <path
-            d="M80 120 L240 90 L320 95 L380 105 L420 130 L430 160 L425 190 L410 230 L385 270 L350 300 L300 320 L240 330 L180 325 L130 310 L90 280 L70 240 L60 200 L65 160 L75 130 Z"
-            fill={continentColors["North America"] || "#e5e7eb"}
-            stroke="#ffffff"
-            strokeWidth="3"
-            filter="url(#continentShadow)"
-          />
-          {/* Alaska */}
-          <path d="M40 140 L80 135 L90 150 L85 170 L70 175 L45 170 L35 155 Z" fill={continentColors["North America"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          {/* Greenland */}
-          <path d="M380 70 L430 65 L450 75 L445 100 L425 110 L390 105 L380 85 Z" fill={continentColors["North America"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          <text x="250" y="210" textAnchor="middle" fill="white" fontWeight="bold" fontSize="18" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
-            North America
-          </text>
-          
-          {/* South America - Fixed shape to prevent ocean overlap */}
-          <path
-            d="M220 380 L280 370 L330 375 L360 395 L380 430 L385 480 L375 530 L360 580 L335 620 L300 640 L260 635 L220 620 L190 590 L175 550 L170 510 L175 470 L185 430 L200 400 Z"
-            fill={continentColors["South America"] || "#e5e7eb"}
-            stroke="#ffffff"
-            strokeWidth="3"
-            filter="url(#continentShadow)"
-          />
-          <text x="280" y="510" textAnchor="middle" fill="white" fontWeight="bold" fontSize="17" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
-            South America
-          </text>
-          
-          {/* Europe - Better definition */}
-          <path
-            d="M480 110 L580 100 L640 105 L670 120 L675 145 L665 170 L640 190 L600 200 L550 195 L510 185 L480 165 L470 140 L475 120 Z"
-            fill={continentColors["Europe"] || "#e5e7eb"}
-            stroke="#ffffff"
-            strokeWidth="3"
-            filter="url(#continentShadow)"
-          />
-          {/* Scandinavia */}
-          <path d="M550 60 L590 55 L610 70 L605 90 L585 95 L555 90 Z" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          {/* British Isles */}
-          <ellipse cx="460" cy="130" rx="15" ry="25" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          <text x="575" y="150" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
-            Europe
-          </text>
-          
-          {/* Africa - Enhanced shape */}
-          <path
-            d="M480 220 L580 210 L640 215 L690 230 L710 260 L715 310 L710 370 L700 430 L685 490 L665 540 L630 570 L590 585 L540 580 L490 570 L450 550 L420 520 L405 480 L400 430 L405 380 L415 330 L430 280 L450 240 Z"
-            fill={continentColors["Africa"] || "#e5e7eb"}
-            stroke="#ffffff"
-            strokeWidth="3"
-            filter="url(#continentShadow)"
-          />
-          <text x="565" y="395" textAnchor="middle" fill="white" fontWeight="bold" fontSize="18" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
-            Africa
-          </text>
-          
-          {/* Asia - More detailed */}
-          <path
-            d="M720 80 L920 70 L980 80 L1020 100 L1050 140 L1055 190 L1040 240 L1010 290 L960 330 L900 350 L840 355 L780 350 L730 340 L690 320 L670 290 L655 250 L660 210 L675 170 L700 130 Z"
-            fill={continentColors["Asia"] || "#e5e7eb"}
-            stroke="#ffffff"
-            strokeWidth="3"
-            filter="url(#continentShadow)"
-          />
-          {/* India subcontinent */}
-          <path d="M800 280 L850 275 L880 295 L875 325 L850 340 L820 335 L800 315 Z" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          {/* Southeast Asia islands */}
-          <ellipse cx="920" cy="340" rx="25" ry="15" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          <text x="870" y="215" textAnchor="middle" fill="white" fontWeight="bold" fontSize="20" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
-            Asia
-          </text>
-          
-          {/* Australia - Better proportioned */}
-          <path
-            d="M880 480 L980 475 L1020 485 L1040 505 L1035 530 L1015 545 L980 550 L940 545 L900 530 L875 505 Z"
-            fill={continentColors["Australia"] || "#e5e7eb"}
-            stroke="#ffffff"
-            strokeWidth="3"
-            filter="url(#continentShadow)"
-          />
-          {/* New Zealand */}
-          <ellipse cx="1070" cy="520" rx="12" ry="30" fill={continentColors["Australia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          <text x="955" y="520" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
-            Australia
-          </text>
-
-          {/* Island details */}
-          <circle cx="1000" cy="250" r="8" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          <circle cx="1020" cy="270" r="6" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          
-          {/* Caribbean */}
-          <circle cx="320" cy="290" r="4" fill={continentColors["North America"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="1.5"/>
-          <circle cx="330" cy="295" r="3" fill={continentColors["North America"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="1.5"/>
-          
-          {/* Madagascar */}
-          <ellipse cx="720" cy="500" rx="10" ry="25" fill={continentColors["Africa"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          
-          {/* Iceland */}
-          <circle cx="440" cy="90" r="8" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
-          
-          {/* Decorative ocean labels with better styling */}
-          <text x="300" y="60" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="14" fontStyle="italic" fontWeight="500">Arctic Ocean</text>
-          <text x="150" y="450" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="14" fontStyle="italic" fontWeight="500">Atlantic</text>
-          <text x="900" y="420" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="14" fontStyle="italic" fontWeight="500">Pacific Ocean</text>
-          <text x="750" y="400" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="14" fontStyle="italic" fontWeight="500">Indian Ocean</text>
-          
-          {/* Decorative compass rose */}
-          <g transform="translate(1100, 100)">
-            <circle r="25" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-            <path d="M0,-20 L5,0 L0,20 L-5,0 Z" fill="rgba(255,255,255,0.8)"/>
-            <text y="-30" textAnchor="middle" fill="rgba(255,255,255,0.9)" fontSize="12" fontWeight="bold">N</text>
-          </g>
-        </svg>
-      </div>
-    );
-  };
-
   return (
     <div
       style={{
@@ -524,7 +671,7 @@ export default function App() {
                 boxShadow: currentView === "map" ? "0 8px 20px rgba(0,0,0,0.2)" : "0 4px 10px rgba(0,0,0,0.1)"
               }}
             >
-              🗺️ World Map
+              🗺️ Live World Map
             </button>
           </div>
         </div>
