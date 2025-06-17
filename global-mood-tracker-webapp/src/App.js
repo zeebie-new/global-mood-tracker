@@ -320,119 +320,136 @@ export default function App() {
 
     return (
       <div style={{ textAlign: "center", padding: "20px" }}>
-        <svg width="1000" height="600" viewBox="0 0 1000 600" style={{ maxWidth: "100%", height: "auto", backgroundColor: "#4a90e2", border: "3px solid #2c5aa0", borderRadius: "15px" }}>
-          {/* Ocean background with wave pattern */}
+        <svg width="1200" height="700" viewBox="0 0 1200 700" style={{ maxWidth: "100%", height: "auto", backgroundColor: "#2563eb", border: "4px solid #1e40af", borderRadius: "20px", boxShadow: "0 10px 30px rgba(0,0,0,0.2)" }}>
+          {/* Ocean background with subtle gradient */}
           <defs>
-            <pattern id="waves" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
-              <path d="M0 10 Q10 5 20 10 T40 10" stroke="#6bb6ff" strokeWidth="1" fill="none" opacity="0.3"/>
+            <radialGradient id="oceanGradient" cx="50%" cy="50%" r="70%">
+              <stop offset="0%" stopColor="#3b82f6"/>
+              <stop offset="100%" stopColor="#1e40af"/>
+            </radialGradient>
+            <pattern id="waves" x="0" y="0" width="60" height="30" patternUnits="userSpaceOnUse">
+              <path d="M0 15 Q15 8 30 15 T60 15" stroke="#60a5fa" strokeWidth="1.5" fill="none" opacity="0.3"/>
+              <path d="M0 20 Q20 13 40 20 T80 20" stroke="#93c5fd" strokeWidth="1" fill="none" opacity="0.2"/>
             </pattern>
+            <filter id="continentShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="3" dy="3" stdDeviation="2" floodOpacity="0.3"/>
+            </filter>
           </defs>
+          <rect width="100%" height="100%" fill="url(#oceanGradient)"/>
           <rect width="100%" height="100%" fill="url(#waves)"/>
-          
-          {/* Grid lines for coordinate reference */}
-          <defs>
-            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)"/>
 
-          {/* North America */}
+          {/* North America - Improved shape */}
           <path
-            d="M80 100 L200 80 L280 85 L320 95 L340 120 L330 160 L310 200 L280 240 L240 260 L180 270 L120 260 L80 240 L60 200 L50 160 L60 120 Z"
+            d="M80 120 L240 90 L320 95 L380 105 L420 130 L430 160 L425 190 L410 230 L385 270 L350 300 L300 320 L240 330 L180 325 L130 310 L90 280 L70 240 L60 200 L65 160 L75 130 Z"
             fill={continentColors["North America"] || "#e5e7eb"}
-            stroke="#1e40af"
-            strokeWidth="2"
+            stroke="#ffffff"
+            strokeWidth="3"
+            filter="url(#continentShadow)"
           />
+          {/* Alaska */}
+          <path d="M40 140 L80 135 L90 150 L85 170 L70 175 L45 170 L35 155 Z" fill={continentColors["North America"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
           {/* Greenland */}
-          <path d="M300 60 L340 55 L360 65 L350 85 L320 90 L300 80 Z" fill={continentColors["North America"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
-          <text x="190" y="170" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
+          <path d="M380 70 L430 65 L450 75 L445 100 L425 110 L390 105 L380 85 Z" fill={continentColors["North America"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
+          <text x="250" y="210" textAnchor="middle" fill="white" fontWeight="bold" fontSize="18" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
             North America
           </text>
           
-          {/* South America */}
+          {/* South America - Fixed shape to prevent ocean overlap */}
           <path
-            d="M180 300 L240 290 L280 300 L300 340 L310 400 L300 460 L280 500 L250 520 L220 510 L190 480 L170 440 L160 400 L165 360 L170 320 Z"
+            d="M220 380 L280 370 L330 375 L360 395 L380 430 L385 480 L375 530 L360 580 L335 620 L300 640 L260 635 L220 620 L190 590 L175 550 L170 510 L175 470 L185 430 L200 400 Z"
             fill={continentColors["South America"] || "#e5e7eb"}
-            stroke="#1e40af"
-            strokeWidth="2"
+            stroke="#ffffff"
+            strokeWidth="3"
+            filter="url(#continentShadow)"
           />
-          <text x="235" y="400" textAnchor="middle" fill="white" fontWeight="bold" fontSize="15" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
+          <text x="280" y="510" textAnchor="middle" fill="white" fontWeight="bold" fontSize="17" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
             South America
           </text>
           
-          {/* Europe */}
+          {/* Europe - Better definition */}
           <path
-            d="M420 90 L520 80 L580 85 L600 95 L590 130 L570 150 L530 160 L480 155 L440 150 L410 130 L405 110 Z"
+            d="M480 110 L580 100 L640 105 L670 120 L675 145 L665 170 L640 190 L600 200 L550 195 L510 185 L480 165 L470 140 L475 120 Z"
             fill={continentColors["Europe"] || "#e5e7eb"}
-            stroke="#1e40af"
-            strokeWidth="2"
+            stroke="#ffffff"
+            strokeWidth="3"
+            filter="url(#continentShadow)"
           />
           {/* Scandinavia */}
-          <path d="M480 50 L520 45 L540 55 L535 75 L515 80 L485 75 Z" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
-          <text x="505" y="115" textAnchor="middle" fill="white" fontWeight="bold" fontSize="14" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
+          <path d="M550 60 L590 55 L610 70 L605 90 L585 95 L555 90 Z" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
+          {/* British Isles */}
+          <ellipse cx="460" cy="130" rx="15" ry="25" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
+          <text x="575" y="150" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
             Europe
           </text>
           
-          {/* Africa */}
+          {/* Africa - Enhanced shape */}
           <path
-            d="M420 180 L520 170 L580 175 L620 190 L630 230 L625 290 L620 350 L610 410 L590 450 L560 470 L520 480 L480 475 L440 465 L410 445 L390 410 L385 350 L390 290 L400 230 L410 190 Z"
+            d="M480 220 L580 210 L640 215 L690 230 L710 260 L715 310 L710 370 L700 430 L685 490 L665 540 L630 570 L590 585 L540 580 L490 570 L450 550 L420 520 L405 480 L400 430 L405 380 L415 330 L430 280 L450 240 Z"
             fill={continentColors["Africa"] || "#e5e7eb"}
-            stroke="#1e40af"
-            strokeWidth="2"
+            stroke="#ffffff"
+            strokeWidth="3"
+            filter="url(#continentShadow)"
           />
-          <text x="505" y="325" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
+          <text x="565" y="395" textAnchor="middle" fill="white" fontWeight="bold" fontSize="18" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
             Africa
           </text>
           
-          {/* Asia */}
+          {/* Asia - More detailed */}
           <path
-            d="M630 60 L820 50 L880 60 L920 80 L940 120 L935 170 L920 220 L880 260 L820 280 L760 285 L700 280 L650 270 L610 250 L590 220 L580 180 L590 140 L610 100 Z"
+            d="M720 80 L920 70 L980 80 L1020 100 L1050 140 L1055 190 L1040 240 L1010 290 L960 330 L900 350 L840 355 L780 350 L730 340 L690 320 L670 290 L655 250 L660 210 L675 170 L700 130 Z"
             fill={continentColors["Asia"] || "#e5e7eb"}
-            stroke="#1e40af"
-            strokeWidth="2"
+            stroke="#ffffff"
+            strokeWidth="3"
+            filter="url(#continentShadow)"
           />
           {/* India subcontinent */}
-          <path d="M700 220 L750 215 L780 230 L775 260 L750 270 L720 265 L700 250 Z" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
-          {/* Southeast Asia */}
-          <path d="M780 280 L820 275 L840 285 L835 305 L815 310 L795 305 L780 295 Z" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
-          <text x="765" y="165" textAnchor="middle" fill="white" fontWeight="bold" fontSize="18" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
+          <path d="M800 280 L850 275 L880 295 L875 325 L850 340 L820 335 L800 315 Z" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
+          {/* Southeast Asia islands */}
+          <ellipse cx="920" cy="340" rx="25" ry="15" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
+          <text x="870" y="215" textAnchor="middle" fill="white" fontWeight="bold" fontSize="20" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
             Asia
           </text>
           
-          {/* Australia */}
+          {/* Australia - Better proportioned */}
           <path
-            d="M750 380 L840 375 L880 385 L900 405 L895 430 L875 445 L840 450 L800 445 L760 430 L745 405 Z"
+            d="M880 480 L980 475 L1020 485 L1040 505 L1035 530 L1015 545 L980 550 L940 545 L900 530 L875 505 Z"
             fill={continentColors["Australia"] || "#e5e7eb"}
-            stroke="#1e40af"
-            strokeWidth="2"
+            stroke="#ffffff"
+            strokeWidth="3"
+            filter="url(#continentShadow)"
           />
           {/* New Zealand */}
-          <ellipse cx="920" cy="420" rx="12" ry="25" fill={continentColors["Australia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
-          <text x="820" y="415" textAnchor="middle" fill="white" fontWeight="bold" fontSize="14" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
+          <ellipse cx="1070" cy="520" rx="12" ry="30" fill={continentColors["Australia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
+          <text x="955" y="520" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.6)" strokeWidth="1">
             Australia
           </text>
 
-          {/* Island chains and details */}
-          <circle cx="880" cy="200" r="6" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
-          <circle cx="900" cy="220" r="4" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
-          <circle cx="860" cy="300" r="5" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
+          {/* Island details */}
+          <circle cx="1000" cy="250" r="8" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
+          <circle cx="1020" cy="270" r="6" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
           
           {/* Caribbean */}
-          <circle cx="250" cy="240" r="3" fill={continentColors["North America"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1"/>
-          <circle cx="260" cy="245" r="2" fill={continentColors["North America"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1"/>
+          <circle cx="320" cy="290" r="4" fill={continentColors["North America"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="1.5"/>
+          <circle cx="330" cy="295" r="3" fill={continentColors["North America"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="1.5"/>
           
           {/* Madagascar */}
-          <ellipse cx="630" cy="420" rx="8" ry="20" fill={continentColors["Africa"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
+          <ellipse cx="720" cy="500" rx="10" ry="25" fill={continentColors["Africa"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
           
           {/* Iceland */}
-          <circle cx="380" cy="70" r="6" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
+          <circle cx="440" cy="90" r="8" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#ffffff" strokeWidth="2"/>
           
-          {/* Ocean labels */}
-          <text x="200" y="50" textAnchor="middle" fill="white" fontSize="12" opacity="0.7" fontStyle="italic">Arctic Ocean</text>
-          <text x="300" y="400" textAnchor="middle" fill="white" fontSize="12" opacity="0.7" fontStyle="italic">Atlantic Ocean</text>
-          <text x="850" y="350" textAnchor="middle" fill="white" fontSize="12" opacity="0.7" fontStyle="italic">Pacific Ocean</text>
-          <text x="650" y="320" textAnchor="middle" fill="white" fontSize="12" opacity="0.7" fontStyle="italic">Indian Ocean</text>
+          {/* Decorative ocean labels with better styling */}
+          <text x="300" y="60" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="14" fontStyle="italic" fontWeight="500">Arctic Ocean</text>
+          <text x="150" y="450" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="14" fontStyle="italic" fontWeight="500">Atlantic</text>
+          <text x="900" y="420" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="14" fontStyle="italic" fontWeight="500">Pacific Ocean</text>
+          <text x="750" y="400" textAnchor="middle" fill="rgba(255,255,255,0.8)" fontSize="14" fontStyle="italic" fontWeight="500">Indian Ocean</text>
+          
+          {/* Decorative compass rose */}
+          <g transform="translate(1100, 100)">
+            <circle r="25" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
+            <path d="M0,-20 L5,0 L0,20 L-5,0 Z" fill="rgba(255,255,255,0.8)"/>
+            <text y="-30" textAnchor="middle" fill="rgba(255,255,255,0.9)" fontSize="12" fontWeight="bold">N</text>
+          </g>
         </svg>
       </div>
     );
@@ -442,46 +459,51 @@ export default function App() {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #1e40af 0%, #7c3aed 100%)",
+        background: "linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #ec4899 100%)",
         padding: "20px",
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <h1
             style={{
-              fontSize: "3rem",
+              fontSize: "3.5rem",
               color: "white",
               margin: "0",
-              textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
+              textShadow: "3px 3px 6px rgba(0,0,0,0.4)",
+              fontWeight: "800",
             }}
           >
             💙 How Are We Feeling Today?
           </h1>
           <p
             style={{
-              fontSize: "1.2rem",
-              color: "rgba(255,255,255,0.9)",
-              margin: "10px 0",
+              fontSize: "1.3rem",
+              color: "rgba(255,255,255,0.95)",
+              margin: "15px 0",
+              textShadow: "1px 1px 2px rgba(0,0,0,0.3)",
             }}
           >
             Share how you're feeling and see how the world is doing
           </p>
           
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ marginTop: "25px" }}>
             <button
               onClick={() => setCurrentView("form")}
               style={{
-                padding: "12px 24px",
-                marginRight: "10px",
+                padding: "15px 30px",
+                marginRight: "15px",
                 backgroundColor: currentView === "form" ? "white" : "rgba(255,255,255,0.2)",
                 color: currentView === "form" ? "#1e40af" : "white",
                 border: "none",
-                borderRadius: "25px",
-                fontWeight: "600",
+                borderRadius: "30px",
+                fontWeight: "700",
+                fontSize: "1rem",
                 cursor: "pointer",
-                transition: "all 0.2s ease"
+                transition: "all 0.3s ease",
+                transform: currentView === "form" ? "translateY(-2px)" : "translateY(0)",
+                boxShadow: currentView === "form" ? "0 8px 20px rgba(0,0,0,0.2)" : "0 4px 10px rgba(0,0,0,0.1)"
               }}
             >
               📝 Share Your Feeling
@@ -489,14 +511,17 @@ export default function App() {
             <button
               onClick={() => setCurrentView("map")}
               style={{
-                padding: "12px 24px",
+                padding: "15px 30px",
                 backgroundColor: currentView === "map" ? "white" : "rgba(255,255,255,0.2)",
                 color: currentView === "map" ? "#1e40af" : "white",
                 border: "none",
-                borderRadius: "25px",
-                fontWeight: "600",
+                borderRadius: "30px",
+                fontWeight: "700",
+                fontSize: "1rem",
                 cursor: "pointer",
-                transition: "all 0.2s ease"
+                transition: "all 0.3s ease",
+                transform: currentView === "map" ? "translateY(-2px)" : "translateY(0)",
+                boxShadow: currentView === "map" ? "0 8px 20px rgba(0,0,0,0.2)" : "0 4px 10px rgba(0,0,0,0.1)"
               }}
             >
               🗺️ World Map
@@ -505,20 +530,21 @@ export default function App() {
         </div>
 
         {currentView === "form" ? (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "30px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
             <div
               style={{
                 backgroundColor: "white",
-                borderRadius: "20px",
-                padding: "30px",
-                boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+                borderRadius: "25px",
+                padding: "40px",
+                boxShadow: "0 25px 50px rgba(0,0,0,0.15)",
+                border: "1px solid rgba(255,255,255,0.2)",
               }}
             >
-              <h2 style={{ marginTop: "0", color: "#333", fontSize: "1.5rem" }}>
+              <h2 style={{ marginTop: "0", color: "#333", fontSize: "1.8rem", fontWeight: "700" }}>
                 How are you feeling today?
               </h2>
 
-              <div style={{ marginBottom: "25px" }}>
+              <div style={{ marginBottom: "30px" }}>
                 {wellbeingStates.map((state) => (
                   <button
                     key={state.name}
@@ -527,22 +553,23 @@ export default function App() {
                     style={{
                       display: "block",
                       width: "100%",
-                      margin: "8px 0",
-                      padding: "15px",
+                      margin: "10px 0",
+                      padding: "18px",
                       backgroundColor: feeling === state.name ? state.color : "#f8f9fa",
                       color: feeling === state.name ? "white" : "#333",
                       border: feeling === state.name ? `3px solid ${state.color}` : "2px solid #e9ecef",
-                      borderRadius: "12px",
-                      fontSize: "1.1rem",
-                      fontWeight: "600",
+                      borderRadius: "15px",
+                      fontSize: "1.2rem",
+                      fontWeight: "700",
                       cursor: loading ? "not-allowed" : "pointer",
-                      transition: "all 0.2s ease",
-                      transform: feeling === state.name ? "scale(1.02)" : "scale(1)",
+                      transition: "all 0.3s ease",
+                      transform: feeling === state.name ? "scale(1.03)" : "scale(1)",
                       opacity: loading ? 0.7 : 1,
+                      boxShadow: feeling === state.name ? `0 8px 20px ${state.color}40` : "0 2px 8px rgba(0,0,0,0.1)",
                     }}
                   >
                     {state.emoji} {state.name}
-                  </button>
+ </button>
                 ))}
               </div>
 
