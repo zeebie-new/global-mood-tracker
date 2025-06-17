@@ -676,6 +676,6 @@ export default function App() {
                 </div>
            <div style={{ color: "#666" }}>Top Global Feeling</div>
                 </div>
-              </div>
+              
             
 
