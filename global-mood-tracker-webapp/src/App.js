@@ -677,11 +677,5 @@ export default function App() {
            <div style={{ color: "#666" }}>Top Global Feeling</div>
                 </div>
               </div>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
+            
 
