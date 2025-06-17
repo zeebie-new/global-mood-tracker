@@ -85,22 +85,31 @@ export default function App() {
     { name: "Struggling", color: "#7f1d1d", emoji: "💪" },
   ];
 
-  // Expanded city to continent mapping
+  // Fixed continent mapping with more comprehensive city coverage
   const getContinentFromLocation = (location) => {
-    const locationLower = location.toLowerCase();
+    if (!location || location.trim() === "") {
+      return "Unknown";
+    }
     
-    // North America
+    const locationLower = location.toLowerCase().trim();
+    
+    // North America - Added Orlando, Miami, and more US cities
     if (locationLower.includes('new york') || locationLower.includes('toronto') || 
         locationLower.includes('mexico city') || locationLower.includes('los angeles') || 
         locationLower.includes('chicago') || locationLower.includes('vancouver') || 
         locationLower.includes('montreal') || locationLower.includes('san francisco') || 
         locationLower.includes('washington') || locationLower.includes('boston') || 
         locationLower.includes('seattle') || locationLower.includes('miami') || 
+        locationLower.includes('orlando') || locationLower.includes('tampa') ||
         locationLower.includes('dallas') || locationLower.includes('atlanta') || 
         locationLower.includes('phoenix') || locationLower.includes('denver') || 
+        locationLower.includes('detroit') || locationLower.includes('philadelphia') ||
+        locationLower.includes('houston') || locationLower.includes('las vegas') ||
         locationLower.includes('canada') || locationLower.includes('usa') || 
         locationLower.includes('united states') || locationLower.includes('america') || 
-        locationLower.includes('mexico')) {
+        locationLower.includes('mexico') || locationLower.includes('florida') ||
+        locationLower.includes('california') || locationLower.includes('texas') ||
+        locationLower.includes('new jersey') || locationLower.includes('nevada')) {
       return "North America";
     }
     
@@ -116,7 +125,10 @@ export default function App() {
         locationLower.includes('uk') || locationLower.includes('england') || 
         locationLower.includes('france') || locationLower.includes('germany') || 
         locationLower.includes('spain') || locationLower.includes('italy') || 
-        locationLower.includes('russia') || locationLower.includes('europe')) {
+        locationLower.includes('russia') || locationLower.includes('europe') ||
+        locationLower.includes('poland') || locationLower.includes('sweden') ||
+        locationLower.includes('norway') || locationLower.includes('denmark') ||
+        locationLower.includes('netherlands') || locationLower.includes('belgium')) {
       return "Europe";
     }
     
@@ -132,7 +144,11 @@ export default function App() {
         locationLower.includes('japan') || locationLower.includes('china') || 
         locationLower.includes('india') || locationLower.includes('korea') || 
         locationLower.includes('thailand') || locationLower.includes('uae') || 
-        locationLower.includes('asia')) {
+        locationLower.includes('asia') || locationLower.includes('vietnam') ||
+        locationLower.includes('malaysia') || locationLower.includes('indonesia') ||
+        locationLower.includes('philippines') || locationLower.includes('pakistan') ||
+        locationLower.includes('lahore') || locationLower.includes('karachi') ||
+        locationLower.includes('islamabad')) {
       return "Asia";
     }
     
@@ -169,8 +185,8 @@ export default function App() {
       return "Australia";
     }
     
-    // Default to Asia for any unrecognized location
-    return "Asia";
+    // Return "Unknown" instead of defaulting to Asia
+    return "Unknown";
   };
 
   useEffect(() => {
@@ -268,10 +284,10 @@ export default function App() {
       wellbeingStates.forEach(s => continentStats[continent].states[s.name] = 0);
     });
     
-    // Process responses
+    // Process responses - exclude "Unknown" continent
     responses.forEach(response => {
       const continent = response.continent;
-      if (continentStats[continent]) {
+      if (continentStats[continent] && continent !== "Unknown") {
         continentStats[continent].total++;
         continentStats[continent].states[response.feeling]++;
         
@@ -304,78 +320,119 @@ export default function App() {
 
     return (
       <div style={{ textAlign: "center", padding: "20px" }}>
-        <svg width="900" height="500" viewBox="0 0 900 500" style={{ maxWidth: "100%", height: "auto", backgroundColor: "#e8f4f8" }}>
+        <svg width="1000" height="600" viewBox="0 0 1000 600" style={{ maxWidth: "100%", height: "auto", backgroundColor: "#4a90e2", border: "3px solid #2c5aa0", borderRadius: "15px" }}>
+          {/* Ocean background with wave pattern */}
+          <defs>
+            <pattern id="waves" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
+              <path d="M0 10 Q10 5 20 10 T40 10" stroke="#6bb6ff" strokeWidth="1" fill="none" opacity="0.3"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#waves)"/>
+          
+          {/* Grid lines for coordinate reference */}
+          <defs>
+            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)"/>
+
           {/* North America */}
           <path
-            d="M60 80 L180 60 L220 75 L240 110 L220 140 L200 170 L160 185 L120 180 L80 160 L50 120 Z"
-            fill={continentColors["North America"] || "#ddd"}
-            stroke="#2563eb"
-            strokeWidth="1.5"
+            d="M80 100 L200 80 L280 85 L320 95 L340 120 L330 160 L310 200 L280 240 L240 260 L180 270 L120 260 L80 240 L60 200 L50 160 L60 120 Z"
+            fill={continentColors["North America"] || "#e5e7eb"}
+            stroke="#1e40af"
+            strokeWidth="2"
           />
-          <text x="145" y="125" textAnchor="middle" fill="white" fontWeight="bold" fontSize="14" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
+          {/* Greenland */}
+          <path d="M300 60 L340 55 L360 65 L350 85 L320 90 L300 80 Z" fill={continentColors["North America"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
+          <text x="190" y="170" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
             North America
           </text>
           
           {/* South America */}
           <path
-            d="M140 220 L180 210 L200 230 L210 280 L200 320 L180 350 L160 360 L140 350 L120 320 L110 280 L120 240 Z"
-            fill={continentColors["South America"] || "#ddd"}
-            stroke="#2563eb"
-            strokeWidth="1.5"
+            d="M180 300 L240 290 L280 300 L300 340 L310 400 L300 460 L280 500 L250 520 L220 510 L190 480 L170 440 L160 400 L165 360 L170 320 Z"
+            fill={continentColors["South America"] || "#e5e7eb"}
+            stroke="#1e40af"
+            strokeWidth="2"
           />
-          <text x="160" y="290" textAnchor="middle" fill="white" fontWeight="bold" fontSize="13" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
+          <text x="235" y="400" textAnchor="middle" fill="white" fontWeight="bold" fontSize="15" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
             South America
           </text>
           
           {/* Europe */}
           <path
-            d="M320 70 L400 60 L440 65 L460 80 L450 110 L420 125 L380 130 L340 125 L310 100 Z"
-            fill={continentColors["Europe"] || "#ddd"}
-            stroke="#2563eb"
-            strokeWidth="1.5"
+            d="M420 90 L520 80 L580 85 L600 95 L590 130 L570 150 L530 160 L480 155 L440 150 L410 130 L405 110 Z"
+            fill={continentColors["Europe"] || "#e5e7eb"}
+            stroke="#1e40af"
+            strokeWidth="2"
           />
-          <text x="385" y="95" textAnchor="middle" fill="white" fontWeight="bold" fontSize="13" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
+          {/* Scandinavia */}
+          <path d="M480 50 L520 45 L540 55 L535 75 L515 80 L485 75 Z" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
+          <text x="505" y="115" textAnchor="middle" fill="white" fontWeight="bold" fontSize="14" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
             Europe
           </text>
           
           {/* Africa */}
           <path
-            d="M320 140 L400 135 L440 140 L460 160 L450 220 L440 280 L420 320 L400 340 L370 350 L340 340 L320 320 L310 280 L305 220 L310 160 Z"
-            fill={continentColors["Africa"] || "#ddd"}
-            stroke="#2563eb"
-            strokeWidth="1.5"
+            d="M420 180 L520 170 L580 175 L620 190 L630 230 L625 290 L620 350 L610 410 L590 450 L560 470 L520 480 L480 475 L440 465 L410 445 L390 410 L385 350 L390 290 L400 230 L410 190 Z"
+            fill={continentColors["Africa"] || "#e5e7eb"}
+            stroke="#1e40af"
+            strokeWidth="2"
           />
-          <text x="380" y="245" textAnchor="middle" fill="white" fontWeight="bold" fontSize="14" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
+          <text x="505" y="325" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
             Africa
           </text>
           
           {/* Asia */}
           <path
-            d="M480 50 L680 45 L720 55 L750 75 L770 110 L760 150 L740 180 L700 195 L650 200 L600 195 L550 185 L500 170 L470 140 L460 100 Z"
-            fill={continentColors["Asia"] || "#ddd"}
-            stroke="#2563eb"
-            strokeWidth="1.5"
+            d="M630 60 L820 50 L880 60 L920 80 L940 120 L935 170 L920 220 L880 260 L820 280 L760 285 L700 280 L650 270 L610 250 L590 220 L580 180 L590 140 L610 100 Z"
+            fill={continentColors["Asia"] || "#e5e7eb"}
+            stroke="#1e40af"
+            strokeWidth="2"
           />
-          <text x="615" y="125" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
+          {/* India subcontinent */}
+          <path d="M700 220 L750 215 L780 230 L775 260 L750 270 L720 265 L700 250 Z" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
+          {/* Southeast Asia */}
+          <path d="M780 280 L820 275 L840 285 L835 305 L815 310 L795 305 L780 295 Z" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
+          <text x="765" y="165" textAnchor="middle" fill="white" fontWeight="bold" fontSize="18" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
             Asia
           </text>
           
           {/* Australia */}
           <path
-            d="M620 280 L720 275 L750 285 L770 305 L760 325 L740 340 L700 345 L660 340 L630 325 L615 305 Z"
-            fill={continentColors["Australia"] || "#ddd"}
-            stroke="#2563eb"
-            strokeWidth="1.5"
+            d="M750 380 L840 375 L880 385 L900 405 L895 430 L875 445 L840 450 L800 445 L760 430 L745 405 Z"
+            fill={continentColors["Australia"] || "#e5e7eb"}
+            stroke="#1e40af"
+            strokeWidth="2"
           />
-          <text x="690" y="315" textAnchor="middle" fill="white" fontWeight="bold" fontSize="13" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
+          {/* New Zealand */}
+          <ellipse cx="920" cy="420" rx="12" ry="25" fill={continentColors["Australia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="2"/>
+          <text x="820" y="415" textAnchor="middle" fill="white" fontWeight="bold" fontSize="14" stroke="rgba(0,0,0,0.4)" strokeWidth="0.8">
             Australia
           </text>
 
-          {/* Add some decorative islands and details */}
-          <circle cx="780" cy="140" r="8" fill={continentColors["Asia"] || "#ddd"} stroke="#2563eb" strokeWidth="1"/>
-          <circle cx="790" cy="160" r="6" fill={continentColors["Asia"] || "#ddd"} stroke="#2563eb" strokeWidth="1"/>
-          <circle cx="200" cy="380" r="5" fill={continentColors["South America"] || "#ddd"} stroke="#2563eb" strokeWidth="1"/>
-          <circle cx="430" cy="370" r="4" fill={continentColors["Africa"] || "#ddd"} stroke="#2563eb" strokeWidth="1"/>
+          {/* Island chains and details */}
+          <circle cx="880" cy="200" r="6" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
+          <circle cx="900" cy="220" r="4" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
+          <circle cx="860" cy="300" r="5" fill={continentColors["Asia"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
+          
+          {/* Caribbean */}
+          <circle cx="250" cy="240" r="3" fill={continentColors["North America"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1"/>
+          <circle cx="260" cy="245" r="2" fill={continentColors["North America"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1"/>
+          
+          {/* Madagascar */}
+          <ellipse cx="630" cy="420" rx="8" ry="20" fill={continentColors["Africa"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
+          
+          {/* Iceland */}
+          <circle cx="380" cy="70" r="6" fill={continentColors["Europe"] || "#e5e7eb"} stroke="#1e40af" strokeWidth="1.5"/>
+          
+          {/* Ocean labels */}
+          <text x="200" y="50" textAnchor="middle" fill="white" fontSize="12" opacity="0.7" fontStyle="italic">Arctic Ocean</text>
+          <text x="300" y="400" textAnchor="middle" fill="white" fontSize="12" opacity="0.7" fontStyle="italic">Atlantic Ocean</text>
+          <text x="850" y="350" textAnchor="middle" fill="white" fontSize="12" opacity="0.7" fontStyle="italic">Pacific Ocean</text>
+          <text x="650" y="320" textAnchor="middle" fill="white" fontSize="12" opacity="0.7" fontStyle="italic">Indian Ocean</text>
         </svg>
       </div>
     );
@@ -559,7 +616,7 @@ export default function App() {
                       <div
                         key={index}
                         style={{
-                          padding: "20px",
+                          padding: " "20px",
                           marginBottom: "15px",
                           backgroundColor: "#f8f9fa",
                           borderRadius: "15px",
