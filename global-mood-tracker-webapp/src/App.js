@@ -674,5 +674,13 @@ export default function App() {
                   <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>{responses.length}</div>
                   <div style={{ color: "#666" }}>Total Responses</div>
                 </div>
-            <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "12px" }}>
-</div>
+           <div style={{ color: "#666" }}>Top Global Feeling</div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
