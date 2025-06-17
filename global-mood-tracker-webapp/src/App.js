@@ -304,72 +304,78 @@ export default function App() {
 
     return (
       <div style={{ textAlign: "center", padding: "20px" }}>
-        <svg width="800" height="400" viewBox="0 0 800 400" style={{ maxWidth: "100%", height: "auto" }}>
+        <svg width="900" height="500" viewBox="0 0 900 500" style={{ maxWidth: "100%", height: "auto", backgroundColor: "#e8f4f8" }}>
           {/* North America */}
           <path
-            d="M50 80 L180 60 L200 120 L160 180 L80 160 Z"
-            fill={continentColors["North America"] || "#e5e7eb"}
-            stroke="#374151"
-            strokeWidth="2"
+            d="M60 80 L180 60 L220 75 L240 110 L220 140 L200 170 L160 185 L120 180 L80 160 L50 120 Z"
+            fill={continentColors["North America"] || "#ddd"}
+            stroke="#2563eb"
+            strokeWidth="1.5"
           />
-          <text x="130" y="120" textAnchor="middle" fill="white" fontWeight="bold" fontSize="12">
+          <text x="145" y="125" textAnchor="middle" fill="white" fontWeight="bold" fontSize="14" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
             North America
           </text>
           
           {/* South America */}
           <path
-            d="M120 200 L180 190 L200 280 L160 320 L100 300 Z"
-            fill={continentColors["South America"] || "#e5e7eb"}
-            stroke="#374151"
-            strokeWidth="2"
+            d="M140 220 L180 210 L200 230 L210 280 L200 320 L180 350 L160 360 L140 350 L120 320 L110 280 L120 240 Z"
+            fill={continentColors["South America"] || "#ddd"}
+            stroke="#2563eb"
+            strokeWidth="1.5"
           />
-          <text x="150" y="250" textAnchor="middle" fill="white" fontWeight="bold" fontSize="12">
+          <text x="160" y="290" textAnchor="middle" fill="white" fontWeight="bold" fontSize="13" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
             South America
           </text>
           
           {/* Europe */}
           <path
-            d="M280 70 L380 60 L400 120 L350 140 L300 130 Z"
-            fill={continentColors["Europe"] || "#e5e7eb"}
-            stroke="#374151"
-            strokeWidth="2"
+            d="M320 70 L400 60 L440 65 L460 80 L450 110 L420 125 L380 130 L340 125 L310 100 Z"
+            fill={continentColors["Europe"] || "#ddd"}
+            stroke="#2563eb"
+            strokeWidth="1.5"
           />
-          <text x="340" y="100" textAnchor="middle" fill="white" fontWeight="bold" fontSize="12">
+          <text x="385" y="95" textAnchor="middle" fill="white" fontWeight="bold" fontSize="13" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
             Europe
           </text>
           
           {/* Africa */}
           <path
-            d="M300 150 L400 140 L420 280 L380 320 L280 300 L270 200 Z"
-            fill={continentColors["Africa"] || "#e5e7eb"}
-            stroke="#374151"
-            strokeWidth="2"
+            d="M320 140 L400 135 L440 140 L460 160 L450 220 L440 280 L420 320 L400 340 L370 350 L340 340 L320 320 L310 280 L305 220 L310 160 Z"
+            fill={continentColors["Africa"] || "#ddd"}
+            stroke="#2563eb"
+            strokeWidth="1.5"
           />
-          <text x="340" y="230" textAnchor="middle" fill="white" fontWeight="bold" fontSize="12">
+          <text x="380" y="245" textAnchor="middle" fill="white" fontWeight="bold" fontSize="14" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
             Africa
           </text>
           
           {/* Asia */}
           <path
-            d="M450 50 L650 40 L680 180 L620 200 L500 190 L430 120 Z"
-            fill={continentColors["Asia"] || "#e5e7eb"}
-            stroke="#374151"
-            strokeWidth="2"
+            d="M480 50 L680 45 L720 55 L750 75 L770 110 L760 150 L740 180 L700 195 L650 200 L600 195 L550 185 L500 170 L470 140 L460 100 Z"
+            fill={continentColors["Asia"] || "#ddd"}
+            stroke="#2563eb"
+            strokeWidth="1.5"
           />
-          <text x="550" y="120" textAnchor="middle" fill="white" fontWeight="bold" fontSize="12">
+          <text x="615" y="125" textAnchor="middle" fill="white" fontWeight="bold" fontSize="16" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
             Asia
           </text>
           
           {/* Australia */}
           <path
-            d="M580 250 L680 240 L700 300 L650 320 L560 310 Z"
-            fill={continentColors["Australia"] || "#e5e7eb"}
-            stroke="#374151"
-            strokeWidth="2"
+            d="M620 280 L720 275 L750 285 L770 305 L760 325 L740 340 L700 345 L660 340 L630 325 L615 305 Z"
+            fill={continentColors["Australia"] || "#ddd"}
+            stroke="#2563eb"
+            strokeWidth="1.5"
           />
-          <text x="630" y="280" textAnchor="middle" fill="white" fontWeight="bold" fontSize="12">
+          <text x="690" y="315" textAnchor="middle" fill="white" fontWeight="bold" fontSize="13" stroke="rgba(0,0,0,0.3)" strokeWidth="0.5">
             Australia
           </text>
+
+          {/* Add some decorative islands and details */}
+          <circle cx="780" cy="140" r="8" fill={continentColors["Asia"] || "#ddd"} stroke="#2563eb" strokeWidth="1"/>
+          <circle cx="790" cy="160" r="6" fill={continentColors["Asia"] || "#ddd"} stroke="#2563eb" strokeWidth="1"/>
+          <circle cx="200" cy="380" r="5" fill={continentColors["South America"] || "#ddd"} stroke="#2563eb" strokeWidth="1"/>
+          <circle cx="430" cy="370" r="4" fill={continentColors["Africa"] || "#ddd"} stroke="#2563eb" strokeWidth="1"/>
         </svg>
       </div>
     );
@@ -560,8 +566,8 @@ export default function App() {
                           borderLeft: `6px solid ${stat.dominantColor}`,
                           transition: "transform 0.2s ease",
                         }}
-                        onMouseEnter={(e) => e.target.style.transform = "translateX(5px)"}
-                        onMouseLeave={(e) => e.target.style.transform = "translateX(0px)"}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = "translateX(5px)"}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = "translateX(0px)"}
                       >
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                           <div>
@@ -668,32 +674,4 @@ export default function App() {
                   <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>{responses.length}</div>
                   <div style={{ color: "#666" }}>Total Responses</div>
                 </div>
-                <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "12px" }}>
-                  <div style={{ fontSize: "2rem", marginBottom: "5px" }}>🌍</div>
-                  <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
-                    {continentStats.length}
-                  </div>
-                  <div style={{ color: "#666" }}>Continents</div>
-                </div>
-                <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "12px" }}>
-                  <div style={{ fontSize: "2rem", marginBottom: "5px" }}>🏙️</div>
-                  <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
-                    {new Set(responses.map(r => r.location)).size}
-                  </div>
-                  <div style={{ color: "#666" }}>Cities</div>
-                </div>
-                <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "12px" }}>
-                  <div style={{ fontSize: "2rem", marginBottom: "5px" }}>⭐</div>
-                  <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
-                    {continentStats[0]?.dominantState || "N/A"}
-                  </div>
-                  <div style={{ color: "#666" }}>Top Global Feeling</div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
+                <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "12px
