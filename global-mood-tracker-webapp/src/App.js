@@ -557,7 +557,7 @@ export default function App() {
         {currentView === "form" ? (
           <div style={{ 
             display: "grid", 
-            gridTemplateColumns: window.innerWidth <"1fr" : "1fr 1fr", 
+            gridTemplateColumns: window.innerWidth < 768 ? "1fr" : "1fr 1fr", 
             gap: window.innerWidth < 768 ? "20px" : "40px" 
           }}>
             <div
