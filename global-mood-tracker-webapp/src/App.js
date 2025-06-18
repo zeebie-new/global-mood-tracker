@@ -85,7 +85,7 @@ export default function App() {
     { name: "Struggling", color: "#7f1d1d", emoji: "💪" },
   ];
 
-  // Fixed continent mapping with more comprehensive city coverage
+  // Fixed continent mapping with comprehensive coverage including South America
   const getContinentFromLocation = (location) => {
     if (!location || location.trim() === "") {
       return "Unknown";
@@ -93,7 +93,7 @@ export default function App() {
     
     const locationLower = location.toLowerCase().trim();
     
-    // North America - Added Orlando, Miami, and more US cities
+    // North America
     if (locationLower.includes('new york') || locationLower.includes('toronto') || 
         locationLower.includes('mexico city') || locationLower.includes('los angeles') || 
         locationLower.includes('chicago') || locationLower.includes('vancouver') || 
@@ -164,15 +164,25 @@ export default function App() {
       return "Africa";
     }
     
-    // South America
+    // South America - FIXED with comprehensive coverage
     if (locationLower.includes('são paulo') || locationLower.includes('sao paulo') || 
-        locationLower.includes('rio de janeiro') || locationLower.includes('buenos aires') || 
+        locationLower.includes('rio de janeiro') || locationLower.includes('rio') ||
+        locationLower.includes('buenos aires') || locationLower.includes('buenos aires') ||
         locationLower.includes('lima') || locationLower.includes('bogotá') || 
         locationLower.includes('bogota') || locationLower.includes('santiago') || 
         locationLower.includes('caracas') || locationLower.includes('quito') || 
-        locationLower.includes('brazil') || locationLower.includes('argentina') || 
-        locationLower.includes('peru') || locationLower.includes('colombia') || 
-        locationLower.includes('chile') || locationLower.includes('south america')) {
+        locationLower.includes('montevideo') || locationLower.includes('asuncion') ||
+        locationLower.includes('la paz') || locationLower.includes('sucre') ||
+        locationLower.includes('georgetown') || locationLower.includes('paramaribo') ||
+        locationLower.includes('cayenne') || locationLower.includes('brasilia') ||
+        locationLower.includes('brazil') || locationLower.includes('brasil') ||
+        locationLower.includes('argentina') || locationLower.includes('peru') || 
+        locationLower.includes('colombia') || locationLower.includes('chile') || 
+        locationLower.includes('venezuela') || locationLower.includes('ecuador') ||
+        locationLower.includes('bolivia') || locationLower.includes('uruguay') ||
+        locationLower.includes('paraguay') || locationLower.includes('guyana') ||
+        locationLower.includes('suriname') || locationLower.includes('french guiana') ||
+        locationLower.includes('south america') || locationLower.includes('sudamerica')) {
       return "South America";
     }
     
@@ -185,7 +195,6 @@ export default function App() {
       return "Australia";
     }
     
-    // Return "Unknown" instead of defaulting to Asia
     return "Unknown";
   };
 
@@ -319,8 +328,20 @@ export default function App() {
     });
 
     return (
-      <div style={{ textAlign: "center", padding: "20px" }}>
-        <svg width="1200" height="700" viewBox="0 0 1200 700" style={{ maxWidth: "100%", height: "auto", backgroundColor: "#2563eb", border: "4px solid #1e40af", borderRadius: "20px", boxShadow: "0 10px 30px rgba(0,0,0,0.2)" }}>
+      <div style={{ textAlign: "center", padding: "10px" }}>
+        <svg 
+          width="100%" 
+          height="auto" 
+          viewBox="0 0 1200 700" 
+          style={{ 
+            maxWidth: "100%", 
+            height: "auto", 
+            backgroundColor: "#2563eb", 
+            border: "4px solid #1e40af", 
+            borderRadius: "20px", 
+            boxShadow: "0 10px 30px rgba(0,0,0,0.2)" 
+          }}
+        >
           {/* Ocean background with subtle gradient */}
           <defs>
             <radialGradient id="oceanGradient" cx="50%" cy="50%" r="70%">
@@ -460,15 +481,15 @@ export default function App() {
       style={{
         minHeight: "100vh",
         background: "linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #ec4899 100%)",
-        padding: "20px",
+        padding: window.innerWidth < 768 ? "10px" : "20px",
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       }}
     >
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: "40px" }}>
+        <div style={{ textAlign: "center", marginBottom: window.innerWidth < 768 ? "20px" : "40px" }}>
           <h1
             style={{
-              fontSize: "3.5rem",
+              fontSize: window.innerWidth < 768 ? "2rem" : "3.5rem",
               color: "white",
               margin: "0",
               textShadow: "3px 3px 6px rgba(0,0,0,0.4)",
@@ -479,49 +500,53 @@ export default function App() {
           </h1>
           <p
             style={{
-              fontSize: "1.3rem",
+              fontSize: window.innerWidth < 768 ? "1rem" : "1.3rem",
               color: "rgba(255,255,255,0.95)",
               margin: "15px 0",
               textShadow: "1px 1px 2px rgba(0,0,0,0.3)",
+              padding: "0 10px"
             }}
           >
             Share how you're feeling and see how the world is doing
           </p>
           
-          <div style={{ marginTop: "25px" }}>
+          <div style={{ marginTop: "25px", display: "flex", flexDirection: window.innerWidth < 768 ? "column" : "row", justifyContent: "center", gap: window.innerWidth < 768 ? "10px" : "15px", alignItems: "center" }}>
             <button
               onClick={() => setCurrentView("form")}
               style={{
-                padding: "15px 30px",
-                marginRight: "15px",
+                padding: window.innerWidth < 768 ? "12px 24px" : "15px 30px",
                 backgroundColor: currentView === "form" ? "white" : "rgba(255,255,255,0.2)",
                 color: currentView === "form" ? "#1e40af" : "white",
                 border: "none",
                 borderRadius: "30px",
                 fontWeight: "700",
-                fontSize: "1rem",
+                fontSize: window.innerWidth < 768 ? "0.9rem" : "1rem",
                 cursor: "pointer",
                 transition: "all 0.3s ease",
                 transform: currentView === "form" ? "translateY(-2px)" : "translateY(0)",
-                boxShadow: currentView === "form" ? "0 8px 20px rgba(0,0,0,0.2)" : "0 4px 10px rgba(0,0,0,0.1)"
+                boxShadow: currentView === "form" ? "0 8px 20px rgba(0,0,0,0.2)" : "0 4px 10px rgba(0,0,0,0.1)",
+                width: window.innerWidth < 768 ? "100%" : "auto",
+                maxWidth: window.innerWidth < 768 ? "300px" : "none"
               }}
             >
-              📝 Share Your Feeling
+              📝 Share Your Feelings.
             </button>
             <button
               onClick={() => setCurrentView("map")}
               style={{
-                padding: "15px 30px",
+                padding: window.innerWidth < 768 ? "12px 24px" : "15px 30px",
                 backgroundColor: currentView === "map" ? "white" : "rgba(255,255,255,0.2)",
                 color: currentView === "map" ? "#1e40af" : "white",
                 border: "none",
                 borderRadius: "30px",
                 fontWeight: "700",
-                fontSize: "1rem",
+                fontSize: window.innerWidth < 768 ? "0.9rem" : "1rem",
                 cursor: "pointer",
                 transition: "all 0.3s ease",
                 transform: currentView === "map" ? "translateY(-2px)" : "translateY(0)",
-                boxShadow: currentView === "map" ? "0 8px 20px rgba(0,0,0,0.2)" : "0 4px 10px rgba(0,0,0,0.1)"
+                boxShadow: currentView === "map" ? "0 8px 20px rgba(0,0,0,0.2)" : "0 4px 10px rgba(0,0,0,0.1)",
+                width: window.innerWidth < 768 ? "100%" : "auto",
+                maxWidth: window.innerWidth < 768 ? "300px" : "none"
               }}
             >
               🗺️ World Map
@@ -530,17 +555,26 @@ export default function App() {
         </div>
 
         {currentView === "form" ? (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px" }}>
+          <div style={{ 
+            display: "grid", 
+            gridTemplateColumns: window.innerWidth < 768 "1fr" : "1fr 1fr", 
+            gap: window.innerWidth < 768 ? "20px" : "40px" 
+          }}>
             <div
               style={{
                 backgroundColor: "white",
                 borderRadius: "25px",
-                padding: "40px",
+                padding: window.innerWidth < 768 ? "20px" : "40px",
                 boxShadow: "0 25px 50px rgba(0,0,0,0.15)",
                 border: "1px solid rgba(255,255,255,0.2)",
               }}
             >
-              <h2 style={{ marginTop: "0", color: "#333", fontSize: "1.8rem", fontWeight: "700" }}>
+              <h2 style={{ 
+                marginTop: "0", 
+                color: "#333", 
+                fontSize: window.innerWidth < 768 ? "1.4rem" : "1.8rem", 
+                fontWeight: "700" 
+              }}>
                 How are you feeling today?
               </h2>
 
@@ -554,12 +588,12 @@ export default function App() {
                       display: "block",
                       width: "100%",
                       margin: "10px 0",
-                      padding: "18px",
+                      padding: window.innerWidth < 768 ? "12px" : "18px",
                       backgroundColor: feeling === state.name ? state.color : "#f8f9fa",
                       color: feeling === state.name ? "white" : "#333",
                       border: feeling === state.name ? `3px solid ${state.color}` : "2px solid #e9ecef",
                       borderRadius: "15px",
-                      fontSize: "1.2rem",
+                      fontSize: window.innerWidth < 768 ? "1rem" : "1.2rem",
                       fontWeight: "700",
                       cursor: loading ? "not-allowed" : "pointer",
                       transition: "all 0.3s ease",
@@ -569,7 +603,7 @@ export default function App() {
                     }}
                   >
                     {state.emoji} {state.name}
- </button>
+                  </button>
                 ))}
               </div>
 
@@ -599,7 +633,7 @@ export default function App() {
                 style={{
                   width: "100%",
                   padding: "18px",
-                  fontSize: "1.2rem",
+                  fontSize: window.innerWidth < 768 ? "1rem" : "1.2rem",
                   fontWeight: "700",
                   backgroundColor: feeling && !loading ? "#1e40af" : "#ccc",
                   color: "white",
@@ -613,108 +647,120 @@ export default function App() {
               </button>
             </div>
 
-            <div
-              style={{
-                backgroundColor: "white",
-                borderRadius: "20px",
-                padding: "30px",
-                boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
-              }}
-            >
-              <h2 style={{ marginTop: "0", color: "#333", fontSize: "1.5rem" }}>
-                🌍 Feelings by Continent
-              </h2>
+            {window.innerWidth >= 768 && (
+              <div
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: "20px",
+                  padding: "30px",
+                  boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+                }}
+              >
+                <h2 style={{ marginTop: "0", color: "#333", fontSize: "1.5rem" }}>
+                  🌍 Feelings by Continent
+                </h2>
 
-              {loadingData ? (
-                <div style={{ textAlign: "center", padding: "40px 20px", color: "#666" }}>
-                  <div style={{ fontSize: "3rem", marginBottom: "15px" }}>⏳</div>
-                  <p>Loading global data...</p>
-                </div>
-              ) : continentStats.length === 0 ? (
-                <div style={{ textAlign: "center", padding: "40px 20px", color: "#666" }}>
-                  <div style={{ fontSize: "3rem", marginBottom: "15px" }}>🌍</div>
-                  <p>No responses yet! Be the first to share how you're feeling.</p>
-                </div>
-              ) : (
-                <div style={{ maxHeight: "450px", overflowY: "auto" }}>
-                  {continentStats.map((stat, index) => {
-                    const stateData = getWellbeingData(stat.dominantState);
-                    return (
-                      <div
-                        key={index}
-                        style={{
-                          padding: " 20px",
-                          marginBottom: "15px",
-                          backgroundColor: "#f8f9fa",
-                          borderRadius: "15px",
-                          borderLeft: `6px solid ${stat.dominantColor}`,
-                          transition: "transform 0.2s ease",
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.transform = "translateX(5px)"}
-                        onMouseLeave={(e) => e.currentTarget.style.transform = "translateX(0px)"}
-                      >
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-                          <div>
-                            <div style={{ fontSize: "1.3rem", fontWeight: "700", color: "#333", marginBottom: "5px" }}>
-                              🌍 {stat.continent}
+                {loadingData ? (
+                  <div style={{ textAlign: "center", padding: "40px 20px", color: "#666" }}>
+                    <div style={{ fontSize: "3rem", marginBottom: "15px" }}>⏳</div>
+                    <p>Loading global data...</p>
+                  </div>
+                ) : continentStats.length === 0 ? (
+                  <div style={{ textAlign: "center", padding: "40px 20px", color: "#666" }}>
+                    <div style={{ fontSize: "3rem", marginBottom: "15px" }}>🌍</div>
+                    <p>No responses yet! Be the first to share how you're feeling.</p>
+                  </div>
+                ) : (
+                  <div style={{ maxHeight: "450px", overflowY: "auto" }}>
+                    {continentStats.map((stat, index) => {
+                      const stateData = getWellbeingData(stat.dominantState);
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            padding: "20px",
+                            marginBottom: "15px",
+                            backgroundColor: "#f8f9fa",
+                            borderRadius: "15px",
+                            borderLeft: `6px solid ${stat.dominantColor}`,
+                            transition: "transform 0.2s ease",
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.transform = "translateX(5px)"}
+                          onMouseLeave={(e) => e.currentTarget.style.transform = "translateX(0px)"}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                            <div>
+                              <div style={{ fontSize: "1.3rem", fontWeight: "700", color: "#333", marginBottom: "5px" }}>
+                                🌍 {stat.continent}
+                              </div>
+                              <div style={{ fontSize: "1.1rem", fontWeight: "600", color: stat.dominantColor }}>
+                                {stateData?.emoji} {stat.dominantState}
+                              </div>
                             </div>
-                            <div style={{ fontSize: "1.1rem", fontWeight: "600", color: stat.dominantColor }}>
-                              {stateData?.emoji} {stat.dominantState}
+                            <div style={{ textAlign: "right" }}>
+                              <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
+                                {stat.total}
+                              </div>
+                              <div style={{ fontSize: "0.8rem", color: "#666" }}>
+                                responses
+                              </div>
                             </div>
                           </div>
-                          <div style={{ textAlign: "right" }}>
-                            <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
-                              {stat.total}
-                            </div>
-                            <div style={{ fontSize: "0.8rem", color: "#666" }}>
-                              responses
-                            </div>
+                          
+                          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                            {Object.entries(stat.states)
+                              .filter(([_, count]) => count > 0)
+                              .sort((a, b) => b[1] - a[1])
+                              .map(([state, count]) => {
+                                const stateInfo = getWellbeingData(state);
+                                return (
+                                  <div
+                                    key={state}
+                                    style={{
+                                      backgroundColor: stateInfo?.color || "#ccc",
+                                      color: "white",
+                                      padding: "4px 8px",
+                                      borderRadius: "12px",
+                                      fontSize: "0.8rem",
+                                      fontWeight: "600"
+                                    }}
+                                  >
+                                    {stateInfo?.emoji} {count}
+                                  </div>
+                                );
+                              })}
                           </div>
                         </div>
-                        
-                        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                          {Object.entries(stat.states)
-                            .filter(([_, count]) => count > 0)
-                            .sort((a, b) => b[1] - a[1])
-                            .map(([state, count]) => {
-                              const stateInfo = getWellbeingData(state);
-                              return (
-                                <div
-                                  key={state}
-                                  style={{
-                                    backgroundColor: stateInfo?.color || "#ccc",
-                                    color: "white",
-                                    padding: "4px 8px",
-                                    borderRadius: "12px",
-                                    fontSize: "0.8rem",
-                                    fontWeight: "600"
-                                  }}
-                                >
-                                  {stateInfo?.emoji} {count}
-                                </div>
-                              );
-                            })}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         ) : (
           <div
             style={{
               backgroundColor: "white",
               borderRadius: "20px",
-              padding: "30px",
+              padding: window.innerWidth < 768 ? "15px" : "30px",
               boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
             }}
           >
-            <h2 style={{ marginTop: "0", color: "#333", fontSize: "1.5rem", textAlign: "center" }}>
+            <h2 style={{ 
+              marginTop: "0", 
+              color: "#333", 
+              fontSize: window.innerWidth < 768 ? "1.3rem" : "1.5rem", 
+              textAlign: "center" 
+            }}>
               🗺️ Global Feelings Map
             </h2>
-            <p style={{ textAlign: "center", color: "#666", marginBottom: "30px" }}>
+            <p style={{ 
+              textAlign: "center", 
+              color: "#666", 
+              marginBottom: "30px",
+              fontSize: window.innerWidth < 768 ? "0.9rem" : "1rem"
+            }}>
               Each continent is colored by its most common feeling
             </p>
             
@@ -732,9 +778,22 @@ export default function App() {
               <>
                 <ContinentMap />
                 
-                <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "15px" }}>
+                <div style={{ 
+                  marginTop: "20px", 
+                  display: "flex", 
+                  justifyContent: "center", 
+                  flexWrap: "wrap", 
+                  gap: window.innerWidth < 768 ? "8px" : "15px" 
+                }}>
                   {wellbeingStates.map(state => (
-                    <div key={state.name} style={{ display: "flex", alignItems: "center", backgroundColor: "#f8f9fa", padding: "8px 12px", borderRadius: "20px" }}>
+                    <div key={state.name} style={{ 
+                      display: "flex", 
+                      alignItems: "center", 
+                      backgroundColor: "#f8f9fa", 
+                      padding: window.innerWidth < 768 ? "6px 10px" : "8px 12px", 
+                      borderRadius: "20px",
+                      fontSize: window.innerWidth < 768 ? "0.8rem" : "0.9rem"
+                    }}>
                       <div
                         style={{
                           width: "12px",
@@ -744,7 +803,7 @@ export default function App() {
                           marginRight: "8px"
                         }}
                       />
-                      <span style={{ fontSize: "0.9rem", fontWeight: "600" }}>{state.emoji} {state.name}</span>
+                      <span style={{ fontWeight: "600" }}>{state.emoji} {state.name}</span>
                     </div>
                   ))}
                 </div>
@@ -752,18 +811,68 @@ export default function App() {
             )}
             
             {responses.length > 0 && (
-              <div style={{ marginTop: "30px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px" }}>
+              <div style={{ 
+                marginTop: "30px", 
+                display: "grid", 
+                gridTemplateColumns: window.innerWidth < 768 ? "1fr" : "repeat(auto-fit, minmax(150px, 1fr))", 
+                gap: "20px" 
+              }}>
                 <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "12px" }}>
                   <div style={{ fontSize: "2rem", marginBottom: "5px" }}>📊</div>
                   <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>{responses.length}</div>
-                  <div style={{ color: "#666" }}>Total Responses</div>
+                  <div style={{ color: "#666", fontSize: window.innerWidth < 768 ? "0.9rem" : "1rem" }}>Total Responses</div>
                 </div>
                 <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f8f9fa", borderRadius: "12px" }}>
                   <div style={{ fontSize: "2rem", marginBottom: "5px" }}>⭐</div>
                   <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
                     {continentStats[0]?.dominantState || "N/A"}
                   </div>
-                  <div style={{ color: "#666" }}>Top Global Feeling</div>
+                  <div style={{ color: "#666", fontSize: window.innerWidth < 768 ? "0.9rem" : "1rem" }}>Top Global Feeling</div>
+                </div>
+              </div>
+            )}
+
+            {/* Mobile-only continent stats */}
+            {window.innerWidth < 768 && continentStats.length > 0 && (
+              <div style={{ marginTop: "30px" }}>
+                <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
+                  🌍 Feelings by Continent
+                </h3>
+                <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                  {continentStats.map((stat, index) => {
+                    const stateData = getWellbeingData(stat.dominantState);
+                    return (
+                      <div
+                        key={index}
+                        style={{
+                          padding: "15px",
+                          marginBottom: "10px",
+                          backgroundColor: "#f8f9fa",
+                          borderRadius: "12px",
+                          borderLeft: `4px solid ${stat.dominantColor}`,
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                          <div>
+                            <div style={{ fontSize: "1rem", fontWeight: "700", color: "#333", marginBottom: "3px" }}>
+                              🌍 {stat.continent}
+                            </div>
+                            <div style={{ fontSize: "0.9rem", fontWeight: "600", color: stat.dominantColor }}>
+                              {stateData?.emoji} {stat.dominantState}
+                            </div>
+                          </div>
+                          <div style={{ textAlign: "right" }}>
+                            <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#333" }}>
+                              {stat.total}
+                            </div>
+                            <div style={{ fontSize: "0.7rem", color: "#666" }}>
+                              responses
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
