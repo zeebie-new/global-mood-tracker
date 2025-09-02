@@ -741,7 +741,7 @@ export default function App() {
         ) : (
           <div
             style={{
-              backgroundColor: "white",
+              backgroundColor: "pink",
               borderRadius: "20px",
               padding: window.innerWidth < 768 ? "15px" : "30px",
               boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
