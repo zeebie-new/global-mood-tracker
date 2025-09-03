@@ -565,7 +565,6 @@ export default function App() {
   </div>
 )}
         </svg>
-</svg>
       </div>
     );
   };
