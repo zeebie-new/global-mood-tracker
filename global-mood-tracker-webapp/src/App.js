@@ -551,48 +551,47 @@ export default function App() {
           <text x="750" y="400" textAnchor="middle" fill="rgba(255,255,255,0.9)" fontSize="16" fontStyle="italic" fontWeight="600"
              style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.5)" }}>Indian Ocean</text>
 
-            {/* Mobile-only continent stats */}
-            {window.innerWidth < 768 && continentStats.length > 0 && (
-              <div style={{ marginTop: "30px" }}>
-                <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
-                  🌍 Feelings by Continent
-                </h3>
-                <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                  {continentStats.map((stat, index) => {
-                    const stateData = getWellbeingData(stat.dominantState);
-                    return (
-                      <div
-                        key={index}
-                        style={{
-                          padding: "15px",
-                          marginBottom: "10px",
-                          backgroundColor: "#f8f9fa",
-                          borderRadius: "12px",
-                          borderLeft: `4px solid ${stat.dominantColor}`,
-                        }}
-                      >
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                          <div>
-                            <div style={{ fontSize: "1rem", fontWeight: "700", color: "#333", marginBottom: "3px" }}>
-                              🌍 {stat.continent}
-                            </div>
-                            <div style={{ fontSize: "0.9rem", fontWeight: "600", color: stat.dominantColor }}>
-                              {stateData?.emoji} {stat.dominantState}
-                            </div>
-                          </div>
-                          <div style={{ textAlign: "right" }}>
-                            <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#333" }}>
-                              {stat.total}
-                            </div>
-                            <div style={{ fontSize: "0.7rem", color: "#666" }}>
-                              responses
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+         {/* Mobile-only continent stats */}
+{window.innerWidth < 768 && continentStats.length > 0 && (
+  <div style={{ marginTop: "30px" }}>
+    <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
+      🌍 Feelings by Continent
+    </h3>
+    <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+      {continentStats.map((stat, index) => {
+        const stateData = getWellbeingData(stat.dominantState);
+        return (
+          <div
+            key={index}
+            style={{
+              padding: "15px",
+              marginBottom: "10px",
+              backgroundColor: "#f8f9fa",
+              borderRadius: "12px",
+              borderLeft: `4px solid ${stat.dominantColor}`,
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+              <div>
+                <div style={{ fontSize: "1rem", fontWeight: "700", color: "#333", marginBottom: "3px" }}>
+                  🌍 {stat.continent}
                 </div>
+                <div style={{ fontSize: "0.9rem", fontWeight: "600", color: stat.dominantColor }}>
+                  {stateData?.emoji} {stat.dominantState}
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#333" }}>
+                  {stat.total}
+                </div>
+                <div style={{ fontSize: "0.7rem", color: "#666" }}>
+                  responses
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
-)
-}
+  </div>
+)}
