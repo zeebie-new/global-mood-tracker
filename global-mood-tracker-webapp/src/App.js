@@ -554,11 +554,17 @@ export default function App() {
 {window.innerWidth < 768 && continentStats.length > 0 && (
   <div style={{ marginTop: "30px" }}>
     <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
-
-     {/* Mobile-only continent stats */}
-{window.innerWidth < 768 && continentStats.length > 0 && (
-  <div style={{ marginTop: "30px" }}>
-    <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
+  </h3>
+    <div style={{ 
+      display: "grid", 
+      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
+      gap: "20px" 
+    }}>
+      {/* continent stats content would go here */}
+    </div>
+  </div>
+)}
+        </svg>
 </svg>
       </div>
     );
