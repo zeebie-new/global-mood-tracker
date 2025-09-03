@@ -550,8 +550,7 @@ export default function App() {
             style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.5)" }}>Pacific Ocean</text>
           <text x="750" y="400" textAnchor="middle" fill="rgba(255,255,255,0.9)" fontSize="16" fontStyle="italic" fontWeight="600"
              style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.5)" }}>Indian Ocean</text>
-
-         {/* Mobile-only continent stats */}
+{/* Mobile-only continent stats */}
 {window.innerWidth < 768 && continentStats.length > 0 && (
   <div style={{ marginTop: "30px" }}>
     <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
