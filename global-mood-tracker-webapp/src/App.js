@@ -555,6 +555,11 @@ export default function App() {
   <div style={{ marginTop: "30px" }}>
     <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
 
+     {/* Mobile-only continent stats */}
+{window.innerWidth < 768 && continentStats.length > 0 && (
+  <div style={{ marginTop: "30px" }}>
+    <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
+
       🌍 Feelings by Continent
     </h3>
     <div style={{ maxHeight: "300px", overflowY: "auto" }}>
