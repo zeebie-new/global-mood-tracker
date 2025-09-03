@@ -559,44 +559,335 @@ export default function App() {
 {window.innerWidth < 768 && continentStats.length > 0 && (
   <div style={{ marginTop: "30px" }}>
     <h3 style={{ color: "#333", fontSize: "1.2rem", marginBottom: "20px", textAlign: "center" }}>
+</svg>
+      </div>
+    );
+  };
 
-      🌍 Feelings by Continent
-    </h3>
-    <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-      {continentStats.map((stat, index) => {
-        const stateData = getWellbeingData(stat.dominantState);
-        return (
-          <div
-            key={index}
+  return (
+    <div style={{ 
+      fontFamily: "system-ui, -apple-system, sans-serif", 
+      minHeight: "100vh", 
+      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      padding: "20px"
+    }}>
+      <div style={{ 
+        maxWidth: "1400px", 
+        margin: "0 auto", 
+        background: "rgba(255, 255, 255, 0.95)",
+        borderRadius: "20px",
+        padding: "30px",
+        boxShadow: "0 20px 40px rgba(0,0,0,0.1)"
+      }}>
+        <h1 style={{ 
+          fontSize: "2.5rem", 
+          textAlign: "center", 
+          marginBottom: "30px", 
+          color: "#1e40af",
+          fontWeight: "700"
+        }}>
+          🌍 Global Wellbeing Monitor
+        </h1>
+
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          marginBottom: "30px",
+          gap: "15px"
+        }}>
+          <button
+            onClick={() => setCurrentView("form")}
             style={{
-              padding: "15px",
-              marginBottom: "10px",
-              backgroundColor: "#f8f9fa",
-              borderRadius: "12px",
-              borderLeft: `4px solid ${stat.dominantColor}`,
+              padding: "12px 24px",
+              borderRadius: "10px",
+              border: "none",
+              background: currentView === "form" ? "#3b82f6" : "#e5e7eb",
+              color: currentView === "form" ? "white" : "#374151",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "all 0.3s ease"
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-              <div>
-                <div style={{ fontSize: "1rem", fontWeight: "700", color: "#333", marginBottom: "3px" }}>
-                  🌍 {stat.continent}
-                </div>
-                <div style={{ fontSize: "0.9rem", fontWeight: "600", color: stat.dominantColor }}>
-                  {stateData?.emoji} {stat.dominantState}
-                </div>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#333" }}>
-                  {stat.total}
-                </div>
-                <div style={{ fontSize: "0.7rem", color: "#666" }}>
-                  responses
-                </div>
-              </div>
+            Share Feeling
+          </button>
+          <button
+            onClick={() => setCurrentView("map")}
+            style={{
+              padding: "12px 24px",
+              borderRadius: "10px",
+              border: "none",
+              background: currentView === "map" ? "#3b82f6" : "#e5e7eb",
+              color: currentView === "map" ? "white" : "#374151",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "all 0.3s ease"
+            }}
+          >
+            World Map
+          </button>
+          <button
+            onClick={() => setCurrentView("stats")}
+            style={{
+              padding: "12px 24px",
+              borderRadius: "10px",
+              border: "none",
+              background: currentView === "stats" ? "#3b82f6" : "#e5e7eb",
+              color: currentView === "stats" ? "white" : "#374151",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "all 0.3s ease"
+            }}
+          >
+            Statistics
+          </button>
+        </div>
+
+        {currentView === "form" && (
+          <div style={{ marginBottom: "40px" }}>
+            <div style={{ marginBottom: "25px" }}>
+              <label style={{ 
+                display: "block", 
+                marginBottom: "10px", 
+                fontWeight: "600", 
+                color: "#374151",
+                fontSize: "1.1rem"
+              }}>
+                How are you feeling right now? 🌟
+              </label>
+              <select
+                value={feeling}
+                onChange={(e) => setFeeling(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "15px",
+                  borderRadius: "10px",
+                  border: "2px solid #d1d5db",
+                  fontSize: "1rem",
+                  background: "white",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+                }}
+              >
+                <option value="">Select your wellbeing state...</option>
+                {wellbeingStates.map((state) => (
+                  <option key={state.name} value={state.name}>
+                    {state.emoji} {state.name}
+                  </option>
+                ))}
+              </select>
             </div>
+
+            <div style={{ marginBottom: "25px" }}>
+              <label style={{ 
+                display: "block", 
+                marginBottom: "10px", 
+                fontWeight: "600", 
+                color: "#374151",
+                fontSize: "1.1rem"
+              }}>
+                Where are you? 📍 (Optional)
+              </label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="e.g., New York, London, Tokyo..."
+                style={{
+                  width: "100%",
+                  padding: "15px",
+                  borderRadius: "10px",
+                  border: "2px solid #d1d5db",
+                  fontSize: "1rem",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+                }}
+              />
+            </div>
+
+            <button
+              onClick={handleSubmit}
+              disabled={!feeling || loading}
+              style={{
+                width: "100%",
+                padding: "15px",
+                borderRadius: "10px",
+                border: "none",
+                background: !feeling || loading ? "#9ca3af" : "#10b981",
+                color: "white",
+                fontSize: "1.1rem",
+                fontWeight: "600",
+                cursor: !feeling || loading ? "not-allowed" : "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
+              }}
+            >
+              {loading ? "Sharing..." : "Share Your Feeling ✨"}
+            </button>
           </div>
-        );
-      })}
+        )}
+
+        {currentView === "map" && (
+          <ContinentMap />
+        )}
+
+        {currentView === "stats" && (
+          <div>
+            {loadingData ? (
+              <div style={{ textAlign: "center", padding: "50px", color: "#6b7280" }}>
+                <div style={{ fontSize: "1.5rem" }}>🌍</div>
+                <p>Loading global wellbeing data...</p>
+              </div>
+            ) : (
+              <>
+                {continentStats.length > 0 && (
+                  <div style={{ marginBottom: "40px" }}>
+                    <h3 style={{ color: "#374151", fontSize: "1.5rem", marginBottom: "20px", textAlign: "center" }}>
+                      🌍 Continental Wellbeing Overview
+                    </h3>
+                    <div style={{ 
+                      display: "grid", 
+                      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
+                      gap: "20px" 
+                    }}>
+                      {continentStats.map((stat, index) => (
+                        <div
+                          key={stat.continent}
+                          style={{
+                            background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+                            borderRadius: "15px",
+                            padding: "20px",
+                            border: `3px solid ${stat.dominantColor}`,
+                            boxShadow: `0 8px 25px ${stat.dominantColor}20`,
+                            transition: "all 0.3s ease"
+                          }}
+                        >
+                          <h4 style={{ 
+                            color: stat.dominantColor, 
+                            fontSize: "1.3rem", 
+                            marginBottom: "15px",
+                            fontWeight: "700"
+                          }}>
+                            {stat.continent}
+                          </h4>
+                          <div style={{ marginBottom: "10px" }}>
+                            <span style={{ fontSize: "0.9rem", color: "#6b7280" }}>
+                              Total Responses: 
+                            </span>
+                            <span style={{ fontWeight: "600", color: "#374151", marginLeft: "5px" }}>
+                              {stat.total}
+                            </span>
+                          </div>
+                          <div style={{ marginBottom: "15px" }}>
+                            <span style={{ fontSize: "0.9rem", color: "#6b7280" }}>
+                              Dominant State: 
+                            </span>
+                            <div style={{ 
+                              display: "inline-flex", 
+                              alignItems: "center", 
+                              marginLeft: "10px",
+                              padding: "5px 12px",
+                              background: stat.dominantColor,
+                              color: "white",
+                              borderRadius: "20px",
+                              fontSize: "0.85rem",
+                              fontWeight: "600"
+                            }}>
+                              {getWellbeingData(stat.dominantState)?.emoji} {stat.dominantState}
+                            </div>
+                          </div>
+                          <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>
+                            {Object.entries(stat.states)
+                              .filter(([_, count]) => count > 0)
+                              .map(([state, count]) => `${state}: ${count}`)
+                              .join(", ")
+                            }
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <h3 style={{ color: "#374151", fontSize: "1.5rem", marginBottom: "20px", textAlign: "center" }}>
+                    💭 Recent Global Feelings ({responses.length})
+                  </h3>
+                  {responses.length === 0 ? (
+                    <div style={{ textAlign: "center", padding: "50px", color: "#6b7280" }}>
+                      <div style={{ fontSize: "3rem", marginBottom: "20px" }}>🌟</div>
+                      <p style={{ fontSize: "1.2rem" }}>Be the first to share how you're feeling!</p>
+                    </div>
+                  ) : (
+                    <div style={{ 
+                      display: "grid", 
+                      gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", 
+                      gap: "15px",
+                      maxHeight: "600px",
+                      overflowY: "auto",
+                      padding: "10px"
+                    }}>
+                      {responses.slice(0, 50).map((response, index) => {
+                        const wellbeingData = getWellbeingData(response.feeling);
+                        return (
+                          <div
+                            key={index}
+                            style={{
+                              background: "white",
+                              borderRadius: "12px",
+                              padding: "15px",
+                              border: `2px solid ${wellbeingData?.color || "#e5e7eb"}`,
+                              boxShadow: `0 4px 12px ${wellbeingData?.color || "#000000"}15`,
+                              transition: "transform 0.2s ease, box-shadow 0.2s ease"
+                            }}
+                            onMouseEnter={(e) => {
+                              e.target.style.transform = "translateY(-2px)";
+                              e.target.style.boxShadow = `0 8px 20px ${wellbeingData?.color || "#000000"}25`;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.target.style.transform = "translateY(0)";
+                              e.target.style.boxShadow = `0 4px 12px ${wellbeingData?.color || "#000000"}15`;
+                            }}
+                          >
+                            <div style={{ 
+                              display: "flex", 
+                              alignItems: "center", 
+                              marginBottom: "8px" 
+                            }}>
+                              <span style={{ fontSize: "1.2rem", marginRight: "8px" }}>
+                                {wellbeingData?.emoji || "😊"}
+                              </span>
+                              <span style={{ 
+                                fontWeight: "600", 
+                                color: wellbeingData?.color || "#374151",
+                                fontSize: "1rem"
+                              }}>
+                                {response.feeling}
+                              </span>
+                            </div>
+                            <div style={{ 
+                              fontSize: "0.85rem", 
+                              color: "#6b7280", 
+                              marginBottom: "5px" 
+                            }}>
+                              📍 {response.location} • {response.continent}
+                            </div>
+                            <div style={{ 
+                              fontSize: "0.8rem", 
+                              color: "#9ca3af" 
+                            }}>
+                              🕒 {response.time}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-)}
+  );
+}
+
+    
