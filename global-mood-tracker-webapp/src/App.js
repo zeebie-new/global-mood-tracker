@@ -77,7 +77,7 @@ export default function App() {
   // Enhanced wellbeing states with more vibrant colors
   const wellbeingStates = [
     { name: "Thriving", color: "#10B981", emoji: "🌟" },
-    { name: "Flourishing", color: "#06B6D4", emoji: "🌸" },
+    { name: "Flourishing", color: "#FFC0CB", emoji: "🌸" },
     { name: "Content", color: "#8B5CF6", emoji: "😌" },
     { name: "Balanced", color: "#14B8A6", emoji: "⚖️" },
     { name: "Steady", color: "#F59E0B", emoji: "🔄" },
@@ -588,7 +588,7 @@ export default function App() {
           fontSize: "2.5rem", 
           textAlign: "center", 
           marginBottom: "30px", 
-          color: "#1e40af",
+          color: "#87CEEB",
           fontWeight: "700"
         }}>
           🌍 Global Wellbeing Monitor
@@ -613,7 +613,7 @@ export default function App() {
               transition: "all 0.3s ease"
             }}
           >
-            Share Feeling
+            Share Current Mood
           </button>
           <button
             onClick={() => setCurrentView("map")}
