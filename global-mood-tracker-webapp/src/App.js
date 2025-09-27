@@ -94,64 +94,536 @@ export default function App() {
     
     const locationLower = location.toLowerCase().trim();
     
-    // North America
-    if (locationLower.includes('new york') || locationLower.includes('toronto') || 
-        locationLower.includes('mexico city') || locationLower.includes('los angeles') || 
-        locationLower.includes('chicago') || locationLower.includes('vancouver') || 
-        locationLower.includes('montreal') || locationLower.includes('san francisco') || 
-        locationLower.includes('washington') || locationLower.includes('boston') || 
-        locationLower.includes('seattle') || locationLower.includes('miami') || 
-        locationLower.includes('orlando') || locationLower.includes('tampa') ||
-        locationLower.includes('dallas') || locationLower.includes('atlanta') || 
-        locationLower.includes('phoenix') || locationLower.includes('denver') || 
-        locationLower.includes('detroit') || locationLower.includes('philadelphia') ||
-        locationLower.includes('houston') || locationLower.includes('las vegas') ||
-        locationLower.includes('canada') || locationLower.includes('usa') || 
-        locationLower.includes('united states') || locationLower.includes('america') || 
-        locationLower.includes('mexico') || locationLower.includes('florida') ||
-        locationLower.includes('california') || locationLower.includes('texas') ||
-        locationLower.includes('new jersey') || locationLower.includes('nevada')) {
-      return "North America";
+  // North America
+if (locationLower.includes('new york') || locationLower.includes('toronto') ||
+    locationLower.includes('mexico city') || locationLower.includes('los angeles') ||
+    locationLower.includes('chicago') || locationLower.includes('vancouver') ||
+    locationLower.includes('montreal') || locationLower.includes('san francisco') ||
+    locationLower.includes('washington') || locationLower.includes('boston') ||
+    locationLower.includes('seattle') || locationLower.includes('miami') ||
+    locationLower.includes('orlando') || locationLower.includes('tampa') ||
+    locationLower.includes('dallas') || locationLower.includes('atlanta') ||
+    locationLower.includes('phoenix') || locationLower.includes('denver') ||
+    locationLower.includes('detroit') || locationLower.includes('philadelphia') ||
+    locationLower.includes('houston') || locationLower.includes('las vegas') ||
+    locationLower.includes('canada') || locationLower.includes('usa') ||
+    locationLower.includes('united states') || locationLower.includes('america') ||
+    locationLower.includes('mexico') || locationLower.includes('florida') ||
+    locationLower.includes('california') || locationLower.includes('texas') ||
+    locationLower.includes('new jersey') || locationLower.includes('nevada') ||
+    
+    // Additional Major US Cities
+    locationLower.includes('san diego') || locationLower.includes('san antonio') ||
+    locationLower.includes('austin') || locationLower.includes('fort worth') ||
+    locationLower.includes('charlotte') || locationLower.includes('columbus') ||
+    locationLower.includes('indianapolis') || locationLower.includes('san jose') ||
+    locationLower.includes('jacksonville') || locationLower.includes('baltimore') ||
+    locationLower.includes('milwaukee') || locationLower.includes('nashville') ||
+    locationLower.includes('oklahoma city') || locationLower.includes('memphis') ||
+    locationLower.includes('louisville') || locationLower.includes('portland') ||
+    locationLower.includes('tucson') || locationLower.includes('fresno') ||
+    locationLower.includes('sacramento') || locationLower.includes('kansas city') ||
+    locationLower.includes('mesa') || locationLower.includes('virginia beach') ||
+    locationLower.includes('omaha') || locationLower.includes('colorado springs') ||
+    locationLower.includes('raleigh') || locationLower.includes('long beach') ||
+    locationLower.includes('minneapolis') || locationLower.includes('cleveland') ||
+    locationLower.includes('pittsburgh') || locationLower.includes('cincinnati') ||
+    locationLower.includes('salt lake city') || locationLower.includes('richmond') ||
+    locationLower.includes('buffalo') || locationLower.includes('albany') ||
+    locationLower.includes('rochester') || locationLower.includes('syracuse') ||
+    
+    // Canadian Cities
+    locationLower.includes('calgary') || locationLower.includes('edmonton') ||
+    locationLower.includes('ottawa') || locationLower.includes('winnipeg') ||
+    locationLower.includes('quebec city') || locationLower.includes('hamilton') ||
+    locationLower.includes('kitchener') || locationLower.includes('london') ||
+    locationLower.includes('halifax') || locationLower.includes('victoria') ||
+    locationLower.includes('saskatoon') || locationLower.includes('regina') ||
+    locationLower.includes('sherbrooke') || locationLower.includes('barrie') ||
+    locationLower.includes('kelowna') || locationLower.includes('abbotsford') ||
+    locationLower.includes('kingston') || locationLower.includes('sudbury') ||
+    locationLower.includes('thunder bay') || locationLower.includes('saint john') ||
+    
+    // Mexican Cities
+    locationLower.includes('guadalajara') || locationLower.includes('puebla') ||
+    locationLower.includes('tijuana') || locationLower.includes('leon') ||
+    locationLower.includes('juarez') || locationLower.includes('torreon') ||
+    locationLower.includes('merida') || locationLower.includes('chihuahua') ||
+    locationLower.includes('san luis potosi') || locationLower.includes('aguascalientes') ||
+    locationLower.includes('mexicali') || locationLower.includes('tampico') ||
+    locationLower.includes('veracruz') || locationLower.includes('acapulco') ||
+    locationLower.includes('cancun') || locationLower.includes('mazatlan') ||
+    locationLower.includes('morelia') || locationLower.includes('xalapa') ||
+    locationLower.includes('oaxaca') || locationLower.includes('cuernavaca') ||
+    
+    // Additional US States
+    locationLower.includes('arizona') || locationLower.includes('colorado') ||
+    locationLower.includes('georgia') || locationLower.includes('illinois') ||
+    locationLower.includes('indiana') || locationLower.includes('maryland') ||
+    locationLower.includes('massachusetts') || locationLower.includes('michigan') ||
+    locationLower.includes('minnesota') || locationLower.includes('missouri') ||
+    locationLower.includes('north carolina') || locationLower.includes('ohio') ||
+    locationLower.includes('oregon') || locationLower.includes('pennsylvania') ||
+    locationLower.includes('tennessee') || locationLower.includes('utah') ||
+    locationLower.includes('virginia') || locationLower.includes('wisconsin') ||
+    locationLower.includes('alabama') || locationLower.includes('arkansas') ||
+    locationLower.includes('connecticut') || locationLower.includes('delaware') ||
+    locationLower.includes('hawaii') || locationLower.includes('idaho') ||
+    locationLower.includes('iowa') || locationLower.includes('kansas') ||
+    locationLower.includes('kentucky') || locationLower.includes('louisiana') ||
+    locationLower.includes('maine') || locationLower.includes('mississippi') ||
+    locationLower.includes('montana') || locationLower.includes('nebraska') ||
+    locationLower.includes('new hampshire') || locationLower.includes('new mexico') ||
+    locationLower.includes('north dakota') || locationLower.includes('oklahoma') ||
+    locationLower.includes('rhode island') || locationLower.includes('south carolina') ||
+    locationLower.includes('south dakota') || locationLower.includes('vermont') ||
+    locationLower.includes('west virginia') || locationLower.includes('wyoming') ||
+    locationLower.includes('alaska') ||
+    
+    // Canadian Provinces/Territories
+    locationLower.includes('ontario') || locationLower.includes('quebec') ||
+    locationLower.includes('british columbia') || locationLower.includes('alberta') ||
+    locationLower.includes('manitoba') || locationLower.includes('saskatchewan') ||
+    locationLower.includes('nova scotia') || locationLower.includes('new brunswick') ||
+    locationLower.includes('newfoundland') || locationLower.includes('prince edward island') ||
+    locationLower.includes('northwest territories') || locationLower.includes('nunavut') ||
+    locationLower.includes('yukon') ||
+    
+    // Mexican States
+    locationLower.includes('jalisco') || locationLower.includes('nuevo leon') ||
+    locationLower.includes('baja california') || locationLower.includes('sonora') ||
+    locationLower.includes('chihuahua') || locationLower.includes('veracruz') ||
+    locationLower.includes('yucatan') || locationLower.includes('puebla') ||
+    locationLower.includes('guanajuato') || locationLower.includes('michoacan') ||
+    locationLower.includes('oaxaca') || locationLower.includes('guerrero') ||
+    locationLower.includes('tamaulipas') || locationLower.includes('sinaloa') ||
+    locationLower.includes('coahuila') || locationLower.includes('quintana roo')) {
+    
+    return "North America";
     }
     
-    // Europe
-    if (locationLower.includes('london') || locationLower.includes('paris') || 
-        locationLower.includes('berlin') || locationLower.includes('moscow') || 
-        locationLower.includes('madrid') || locationLower.includes('rome') || 
-        locationLower.includes('amsterdam') || locationLower.includes('barcelona') || 
-        locationLower.includes('vienna') || locationLower.includes('prague') || 
-        locationLower.includes('stockholm') || locationLower.includes('oslo') || 
-        locationLower.includes('copenhagen') || locationLower.includes('dublin') || 
-        locationLower.includes('zurich') || locationLower.includes('brussels') || 
-        locationLower.includes('uk') || locationLower.includes('england') || 
-        locationLower.includes('france') || locationLower.includes('germany') || 
-        locationLower.includes('spain') || locationLower.includes('italy') || 
-        locationLower.includes('russia') || locationLower.includes('europe') ||
-        locationLower.includes('poland') || locationLower.includes('sweden') ||
-        locationLower.includes('norway') || locationLower.includes('denmark') ||
-        locationLower.includes('netherlands') || locationLower.includes('belgium')) {
-      return "Europe";
-    }
+  // Europe
+if (locationLower.includes('london') || locationLower.includes('paris') || 
+    locationLower.includes('berlin') || locationLower.includes('moscow') || 
+    locationLower.includes('madrid') || locationLower.includes('rome') || 
+    locationLower.includes('amsterdam') || locationLower.includes('barcelona') || 
+    locationLower.includes('vienna') || locationLower.includes('prague') || 
+    locationLower.includes('stockholm') || locationLower.includes('oslo') || 
+    locationLower.includes('copenhagen') || locationLower.includes('dublin') || 
+    locationLower.includes('zurich') || locationLower.includes('brussels') || 
+    locationLower.includes('uk') || locationLower.includes('england') || 
+    locationLower.includes('france') || locationLower.includes('germany') || 
+    locationLower.includes('spain') || locationLower.includes('italy') || 
+    locationLower.includes('russia') || locationLower.includes('europe') ||
+    locationLower.includes('poland') || locationLower.includes('sweden') ||
+    locationLower.includes('norway') || locationLower.includes('denmark') ||
+    locationLower.includes('netherlands') || locationLower.includes('belgium') ||
     
-    // Asia
-    if (locationLower.includes('tokyo') || locationLower.includes('mumbai') || 
-        locationLower.includes('beijing') || locationLower.includes('bangkok') || 
-        locationLower.includes('dubai') || locationLower.includes('seoul') || 
-        locationLower.includes('shanghai') || locationLower.includes('delhi') || 
-        locationLower.includes('singapore') || locationLower.includes('hong kong') || 
-        locationLower.includes('taipei') || locationLower.includes('manila') || 
-        locationLower.includes('jakarta') || locationLower.includes('kuala lumpur') || 
-        locationLower.includes('riyadh') || locationLower.includes('doha') || 
-        locationLower.includes('japan') || locationLower.includes('china') || 
-        locationLower.includes('india') || locationLower.includes('korea') || 
-        locationLower.includes('thailand') || locationLower.includes('uae') || 
-        locationLower.includes('asia') || locationLower.includes('vietnam') ||
-        locationLower.includes('malaysia') || locationLower.includes('indonesia') ||
-        locationLower.includes('philippines') || locationLower.includes('pakistan') ||
-        locationLower.includes('lahore') || locationLower.includes('karachi') ||
-        locationLower.includes('islamabad')) {
-      return "Asia";
-    }
+    // All European Cities (Major and Minor)
+    locationLower.includes('lisbon') || locationLower.includes('athens') ||
+    locationLower.includes('budapest') || locationLower.includes('warsaw') ||
+    locationLower.includes('munich') || locationLower.includes('milan') ||
+    locationLower.includes('naples') || locationLower.includes('valencia') ||
+    locationLower.includes('seville') || locationLower.includes('porto') ||
+    locationLower.includes('florence') || locationLower.includes('venice') ||
+    locationLower.includes('lyon') || locationLower.includes('marseille') ||
+    locationLower.includes('toulouse') || locationLower.includes('nice') ||
+    locationLower.includes('hamburg') || locationLower.includes('cologne') ||
+    locationLower.includes('frankfurt') || locationLower.includes('stuttgart') ||
+    locationLower.includes('manchester') || locationLower.includes('birmingham') ||
+    locationLower.includes('glasgow') || locationLower.includes('edinburgh') ||
+    locationLower.includes('liverpool') || locationLower.includes('bristol') ||
+    locationLower.includes('leeds') || locationLower.includes('cardiff') ||
+    locationLower.includes('belfast') || locationLower.includes('sheffield') ||
+    locationLower.includes('nottingham') || locationLower.includes('leicester') ||
+    locationLower.includes('helsinki') || locationLower.includes('gothenburg') ||
+    locationLower.includes('malmo') || locationLower.includes('bergen') ||
+    locationLower.includes('trondheim') || locationLower.includes('stavanger') ||
+    locationLower.includes('aarhus') || locationLower.includes('odense') ||
+    locationLower.includes('aalborg') || locationLower.includes('tampere') ||
+    locationLower.includes('turku') || locationLower.includes('espoo') ||
+    locationLower.includes('reykjavik') || locationLower.includes('krakow') ||
+    locationLower.includes('gdansk') || locationLower.includes('wroclaw') ||
+    locationLower.includes('poznan') || locationLower.includes('lodz') ||
+    locationLower.includes('st petersburg') || locationLower.includes('saint petersburg') ||
+    locationLower.includes('novosibirsk') || locationLower.includes('yekaterinburg') ||
+    locationLower.includes('nizhny novgorod') || locationLower.includes('kazan') ||
+    locationLower.includes('samara') || locationLower.includes('omsk') ||
+    locationLower.includes('chelyabinsk') || locationLower.includes('rostov') ||
+    locationLower.includes('ufa') || locationLower.includes('volgograd') ||
+    locationLower.includes('perm') || locationLower.includes('brno') ||
+    locationLower.includes('ostrava') || locationLower.includes('bratislava') ||
+    locationLower.includes('kosice') || locationLower.includes('debrecen') ||
+    locationLower.includes('szeged') || locationLower.includes('pecs') ||
+    locationLower.includes('miskolc') || locationLower.includes('ljubljana') ||
+    locationLower.includes('maribor') || locationLower.includes('zagreb') ||
+    locationLower.includes('split') || locationLower.includes('rijeka') ||
+    locationLower.includes('osijek') || locationLower.includes('belgrade') ||
+    locationLower.includes('novi sad') || locationLower.includes('nis') ||
+    locationLower.includes('kragujevac') || locationLower.includes('sarajevo') ||
+    locationLower.includes('banja luka') || locationLower.includes('tuzla') ||
+    locationLower.includes('zenica') || locationLower.includes('skopje') ||
+    locationLower.includes('bitola') || locationLower.includes('kumanovo') ||
+    locationLower.includes('ohrid') || locationLower.includes('sofia') ||
+    locationLower.includes('plovdiv') || locationLower.includes('varna') ||
+    locationLower.includes('burgas') || locationLower.includes('bucharest') ||
+    locationLower.includes('cluj napoca') || locationLower.includes('timisoara') ||
+    locationLower.includes('iasi') || locationLower.includes('constanta') ||
+    locationLower.includes('craiova') || locationLower.includes('brasov') ||
+    locationLower.includes('galati') || locationLower.includes('tirana') ||
+    locationLower.includes('durres') || locationLower.includes('vlore') ||
+    locationLower.includes('shkoder') || locationLower.includes('pristina') ||
+    locationLower.includes('prizren') || locationLower.includes('peja') ||
+    locationLower.includes('ferizaj') || locationLower.includes('podgorica') ||
+    locationLower.includes('niksic') || locationLower.includes('pljevlja') ||
+    locationLower.includes('bar') || locationLower.includes('geneva') ||
+    locationLower.includes('basel') || locationLower.includes('bern') ||
+    locationLower.includes('lausanne') || locationLower.includes('winterthur') ||
+    locationLower.includes('lucerne') || locationLower.includes('st gallen') ||
+    locationLower.includes('lugano') || locationLower.includes('graz') ||
+    locationLower.includes('linz') || locationLower.includes('salzburg') ||
+    locationLower.includes('innsbruck') || locationLower.includes('klagenfurt') ||
+    locationLower.includes('villach') || locationLower.includes('coimbra') ||
+    locationLower.includes('braga') || locationLower.includes('funchal') ||
+    locationLower.includes('aveiro') || locationLower.includes('viseu') ||
+    locationLower.includes('setubal') || locationLower.includes('thessaloniki') ||
+    locationLower.includes('patras') || locationLower.includes('heraklion') ||
+    locationLower.includes('larissa') || locationLower.includes('volos') ||
+    locationLower.includes('ioannina') || locationLower.includes('kavala') ||
+    locationLower.includes('rhodes') || locationLower.includes('istanbul') ||
+    locationLower.includes('edirne') || locationLower.includes('tekirdag') ||
+    locationLower.includes('kirklareli') ||
+    
+    // Minor Cities and Towns
+    locationLower.includes('oxford') || locationLower.includes('cambridge') ||
+    locationLower.includes('canterbury') || locationLower.includes('york') ||
+    locationLower.includes('bath') || locationLower.includes('exeter') ||
+    locationLower.includes('brighton') || locationLower.includes('bournemouth') ||
+    locationLower.includes('blackpool') || locationLower.includes('chester') ||
+    locationLower.includes('durham') || locationLower.includes('norwich') ||
+    locationLower.includes('coventry') || locationLower.includes('bradford') ||
+    locationLower.includes('preston') || locationLower.includes('hull') ||
+    locationLower.includes('swansea') || locationLower.includes('newport') ||
+    locationLower.includes('aberdeen') || locationLower.includes('dundee') ||
+    locationLower.includes('stirling') || locationLower.includes('inverness') ||
+    locationLower.includes('perth') || locationLower.includes('derry') ||
+    locationLower.includes('londonderry') || locationLower.includes('armagh') ||
+    locationLower.includes('cork') || locationLower.includes('galway') ||
+    locationLower.includes('limerick') || locationLower.includes('waterford') ||
+    locationLower.includes('kilkenny') || locationLower.includes('derry') ||
+    locationLower.includes('nantes') || locationLower.includes('strasbourg') ||
+    locationLower.includes('montpellier') || locationLower.includes('bordeaux') ||
+    locationLower.includes('lille') || locationLower.includes('rennes') ||
+    locationLower.includes('reims') || locationLower.includes('le havre') ||
+    locationLower.includes('saint etienne') || locationLower.includes('toulon') ||
+    locationLower.includes('grenoble') || locationLower.includes('dijon') ||
+    locationLower.includes('angers') || locationLower.includes('villeurbanne') ||
+    locationLower.includes('le mans') || locationLower.includes('brest') ||
+    locationLower.includes('tours') || locationLower.includes('amiens') ||
+    locationLower.includes('limoges') || locationLower.includes('clermont ferrand') ||
+    locationLower.includes('besancon') || locationLower.includes('orléans') ||
+    locationLower.includes('metz') || locationLower.includes('rouen') ||
+    locationLower.includes('mulhouse') || locationLower.includes('caen') ||
+    locationLower.includes('nancy') || locationLower.includes('avignon') ||
+    locationLower.includes('cannes') || locationLower.includes('perpignan') ||
+    locationLower.includes('dusseldorf') || locationLower.includes('dresden') ||
+    locationLower.includes('leipzig') || locationLower.includes('hannover') ||
+    locationLower.includes('nuremberg') || locationLower.includes('duisburg') ||
+    locationLower.includes('bochum') || locationLower.includes('wuppertal') ||
+    locationLower.includes('bielefeld') || locationLower.includes('bonn') ||
+    locationLower.includes('munster') || locationLower.includes('karlsruhe') ||
+    locationLower.includes('mannheim') || locationLower.includes('augsburg') ||
+    locationLower.includes('wiesbaden') || locationLower.includes('gelsenkirchen') ||
+    locationLower.includes('monchengladbach') || locationLower.includes('braunschweig') ||
+    locationLower.includes('chemnitz') || locationLower.includes('kiel') ||
+    locationLower.includes('aachen') || locationLower.includes('halle') ||
+    locationLower.includes('magdeburg') || locationLower.includes('freiburg') ||
+    locationLower.includes('krefeld') || locationLower.includes('lubeck') ||
+    locationLower.includes('oberhausen') || locationLower.includes('erfurt') ||
+    locationLower.includes('mainz') || locationLower.includes('rostock') ||
+    locationLower.includes('kassel') || locationLower.includes('hagen') ||
+    locationLower.includes('potsdam') || locationLower.includes('saarbrucken') ||
+    locationLower.includes('hamm') || locationLower.includes('mulheim') ||
+    locationLower.includes('ludwigshafen') || locationLower.includes('oldenburg') ||
+    locationLower.includes('leverkusen') || locationLower.includes('osnabrück') ||
+    locationLower.includes('solingen') || locationLower.includes('heidelberg') ||
+    locationLower.includes('turin') || locationLower.includes('palermo') ||
+    locationLower.includes('genoa') || locationLower.includes('bologna') ||
+    locationLower.includes('catania') || locationLower.includes('bari') ||
+    locationLower.includes('messina') || locationLower.includes('verona') ||
+    locationLower.includes('padova') || locationLower.includes('trieste') ||
+    locationLower.includes('brescia') || locationLower.includes('taranto') ||
+    locationLower.includes('prato') || locationLower.includes('parma') ||
+    locationLower.includes('modena') || locationLower.includes('reggio calabria') ||
+    locationLower.includes('reggio emilia') || locationLower.includes('perugia') ||
+    locationLower.includes('ravenna') || locationLower.includes('livorno') ||
+    locationLower.includes('cagliari') || locationLower.includes('foggia') ||
+    locationLower.includes('rimini') || locationLower.includes('salerno') ||
+    locationLower.includes('ferrara') || locationLower.includes('sassari') ||
+    locationLower.includes('syracuse') || locationLower.includes('pescara') ||
+    locationLower.includes('monza') || locationLower.includes('bergamo') ||
+    locationLower.includes('trento') || locationLower.includes('vicenza') ||
+    locationLower.includes('terni') || locationLower.includes('bolzano') ||
+    locationLower.includes('novara') || locationLower.includes('piacenza') ||
+    locationLower.includes('ancona') || locationLower.includes('andria') ||
+    locationLower.includes('arezzo') || locationLower.includes('udine') ||
+    locationLower.includes('cesena') || locationLower.includes('lecce') ||
+    locationLower.includes('bilbao') || locationLower.includes('alicante') ||
+    locationLower.includes('cordoba') || locationLower.includes('valladolid') ||
+    locationLower.includes('vigo') || locationLower.includes('gijon') ||
+    locationLower.includes('hospitalet') || locationLower.includes('la coruna') ||
+    locationLower.includes('vitoria gasteiz') || locationLower.includes('granada') ||
+    locationLower.includes('elche') || locationLower.includes('oviedo') ||
+    locationLower.includes('badalona') || locationLower.includes('cartagena') ||
+    locationLower.includes('terrassa') || locationLower.includes('jerez') ||
+    locationLower.includes('sabadell') || locationLower.includes('mostoles') ||
+    locationLower.includes('alcala de henares') || locationLower.includes('pamplona') ||
+    locationLower.includes('fuenlabrada') || locationLower.includes('almeria') ||
+    locationLower.includes('leganes') || locationLower.includes('santander') ||
+    locationLower.includes('burgos') || locationLower.includes('castellon') ||
+    locationLower.includes('alcorcon') || locationLower.includes('albacete') ||
+    locationLower.includes('getafe') || locationLower.includes('salamanca') ||
+    locationLower.includes('huelva') || locationLower.includes('logrono') ||
+    locationLower.includes('badajoz') || locationLower.includes('tarragona') ||
+    locationLower.includes('leon') || locationLower.includes('cadiz') ||
+    locationLower.includes('lleida') || locationLower.includes('marbella') ||
+    locationLower.includes('dos hermanas') || locationLower.includes('mataro') ||
+    locationLower.includes('torrevieja') || locationLower.includes('parla') ||
+    locationLower.includes('alcobendas') || locationLower.includes('torrejon') ||
+    locationLower.includes('reus') || locationLower.includes('ourense') ||
+    locationLower.includes('guadalajara') || locationLower.includes('lugo') ||
+    locationLower.includes('santiago') || locationLower.includes('caceres') ||
+    locationLower.includes('lorca') || locationLower.includes('coslada') ||
+    locationLower.includes('talavera') || locationLower.includes('el ejido') ||
+    locationLower.includes('zamora') || locationLower.includes('girona') ||
+    locationLower.includes('segovia') || locationLower.includes('cuenca') ||
+    locationLower.includes('jaen') || locationLower.includes('palencia') ||
+    locationLower.includes('orense') || locationLower.includes('avila') ||
+    locationLower.includes('soria') || locationLower.includes('teruel') ||
+    locationLower.includes('huesca') || locationLower.includes('toledo') ||
+    locationLower.includes('ceuta') || locationLower.includes('melilla') ||
+    locationLower.includes('faro') || locationLower.includes('leiria') ||
+    locationLower.includes('evora') || locationLower.includes('beja') ||
+    locationLower.includes('castelo branco') || locationLower.includes('guarda') ||
+    locationLower.includes('portalegre') || locationLower.includes('santarem') ||
+    locationLower.includes('torres vedras') || locationLower.includes('sintra') ||
+    locationLower.includes('cascais') || locationLower.includes('almada') ||
+    locationLower.includes('barreiro') || locationLower.includes('amadora') ||
+    locationLower.includes('matosinhos') || locationLower.includes('gondomar') ||
+    locationLower.includes('vila nova de gaia') || locationLower.includes('maia') ||
+    locationLower.includes('guimaraes') || locationLower.includes('barcelos') ||
+    locationLower.includes('santo tirso') || locationLower.includes('famalicao') ||
+    locationLower.includes('katowice') || locationLower.includes('bialystok') ||
+    locationLower.includes('bydgoszcz') || locationLower.includes('lublin') ||
+    locationLower.includes('czestochowa') || locationLower.includes('radom') ||
+    locationLower.includes('sosnowiec') || locationLower.includes('torun') ||
+    locationLower.includes('kielce') || locationLower.includes('gliwice') ||
+    locationLower.includes('zabrze') || locationLower.includes('bytom') ||
+    locationLower.includes('olsztyn') || locationLower.includes('bielsko biala') ||
+    locationLower.includes('rzeszow') || locationLower.includes('rybnik') ||
+    locationLower.includes('ruda slaska') || locationLower.includes('tychy') ||
+    locationLower.includes('opole') || locationLower.includes('gorzow') ||
+    locationLower.includes('elblag') || locationLower.includes('walbrzych') ||
+    locationLower.includes('wloclawek') || locationLower.includes('tarnow') ||
+    locationLower.includes('chorzow') || locationLower.includes('koszalin') ||
+    locationLower.includes('kalisz') || locationLower.includes('legnica') ||
+    locationLower.includes('grudziadz') || locationLower.includes('jaworzno') ||
+    locationLower.includes('slupsk') || locationLower.includes('jastrzebie') ||
+    locationLower.includes('nowy sacz') || locationLower.includes('jelenia gora') ||
+    locationLower.includes('konin') || locationLower.includes('piotrków') ||
+    locationLower.includes('lubin') || locationLower.includes('inowroclaw') ||
+    locationLower.includes('ostrów') || locationLower.includes('stargard') ||
+    locationLower.includes('gniezno') || locationLower.includes('sieradz') ||
+    locationLower.includes('ostroleka') || locationLower.includes('zawiercie') ||
+    locationLower.includes('oświęcim') || locationLower.includes('starachowice') ||
+    locationLower.includes('pila') || locationLower.includes('lomza') ||
+    locationLower.includes('belchatow') || locationLower.includes('zgierz') ||
+    locationLower.includes('tczew') || locationLower.includes('malbork') ||
+    locationLower.includes('kutno') || locationLower.includes('raciborz') ||
+    locationLower.includes('nysa') || locationLower.includes('zielona gora') ||
+    locationLower.includes('leszno') || locationLower.includes('wodzislaw') ||
+    locationLower.includes('tarnowskie gory') || locationLower.includes('kędzierzyn') ||
+    locationLower.includes('skierniewice') || locationLower.includes('ostrowiec') ||
+    locationLower.includes('chełm') || locationLower.includes('zamość') ||
+    locationLower.includes('biała podlaska') || locationLower.includes('pulawy') ||
+    locationLower.includes('stalowa wola') || locationLower.includes('krosno') ||
+    locationLower.includes('przemysl') || locationLower.includes('mielec') ||
+    locationLower.includes('debica') || locationLower.includes('tarnobrzeg') ||
+    locationLower.includes('nowy targ') || locationLower.includes('zakopane') ||
+    locationLower.includes('pszczyna') || locationLower.includes('otwock') ||
+    locationLower.includes('pruszkow') || locationLower.includes('piaseczno') ||
+    locationLower.includes('legionowo') || locationLower.includes('marki') ||
+    locationLower.includes('wolomin') || locationLower.includes('milanowek') ||
+    locationLower.includes('konstancin') || locationLower.includes('grodzisk') ||
+    locationLower.includes('zyrardow') || locationLower.includes('sochaczew') ||
+    locationLower.includes('pruszków') || locationLower.includes('raszyn') ||
+    locationLower.includes('ursus') || locationLower.includes('bemowo') ||
+    locationLower.includes('wola') || locationLower.includes('ochota') ||
+    locationLower.includes('mokotow') || locationLower.includes('wilanow') ||
+    locationLower.includes('ursynow') || locationLower.includes('natolin') ||
+    locationLower.includes('kabaty') || locationLower.includes('rembertow') ||
+    locationLower.includes('wawer') || locationLower.includes('wesola') ||
+    locationLower.includes('sulejowek') || locationLower.includes('halinow') ||
+    locationLower.includes('jozefow') || locationLower.includes('otwock') ||
+    locationLower.includes('karczew') || locationLower.includes('celestynow') ||
+    locationLower.includes('góra kalwaria') || locationLower.includes('piaseczno') ||
+    
+    // Additional Countries
+    locationLower.includes('portugal') || locationLower.includes('greece') ||
+    locationLower.includes('austria') || locationLower.includes('switzerland') ||
+    locationLower.includes('finland') || locationLower.includes('iceland') ||
+    locationLower.includes('ireland') || locationLower.includes('scotland') ||
+    locationLower.includes('wales') || locationLower.includes('northern ireland') ||
+    locationLower.includes('czech republic') || locationLower.includes('slovakia') ||
+    locationLower.includes('hungary') || locationLower.includes('slovenia') ||
+    locationLower.includes('croatia') || locationLower.includes('serbia') ||
+    locationLower.includes('bosnia') || locationLower.includes('herzegovina') ||
+    locationLower.includes('montenegro') || locationLower.includes('albania') ||
+    locationLower.includes('north macedonia') || locationLower.includes('macedonia') ||
+    locationLower.includes('bulgaria') || locationLower.includes('romania') ||
+    locationLower.includes('moldova') || locationLower.includes('ukraine') ||
+    locationLower.includes('belarus') || locationLower.includes('lithuania') ||
+    locationLower.includes('latvia') || locationLower.includes('estonia') ||
+    locationLower.includes('kosovo') || locationLower.includes('luxembourg') ||
+    locationLower.includes('liechtenstein') || locationLower.includes('monaco') ||
+    locationLower.includes('san marino') || locationLower.includes('vatican') ||
+    locationLower.includes('andorra') || locationLower.includes('malta') ||
+    locationLower.includes('cyprus') || locationLower.includes('turkey') ||
+    
+    // Regional Terms
+    locationLower.includes('scandinavia') || locationLower.includes('scandinavian') ||
+    locationLower.includes('balkans') || locationLower.includes('balkan') ||
+    locationLower.includes('eastern europe') || locationLower.includes('western europe') ||
+    locationLower.includes('central europe') || locationLower.includes('southern europe') ||
+    locationLower.includes('northern europe') || locationLower.includes('mediterranean') ||
+    locationLower.includes('iberian peninsula') || locationLower.includes('british isles') ||
+    locationLower.includes('benelux') || locationLower.includes('baltic states') ||
+    locationLower.includes('soviet union') || locationLower.includes('ussr') ||
+    locationLower.includes('yugoslavia') || locationLower.includes('czechoslovakia') ||
+    locationLower.includes('great britain') || locationLower.includes('britain') ||
+    locationLower.includes('european union') || locationLower.includes('eu')) {
+    
+    return "Europe";
+}
+      // Asia
+if (locationLower.includes('tokyo') || locationLower.includes('mumbai') || 
+    locationLower.includes('beijing') || locationLower.includes('bangkok') || 
+    locationLower.includes('dubai') || locationLower.includes('seoul') || 
+    locationLower.includes('shanghai') || locationLower.includes('delhi') || 
+    locationLower.includes('singapore') || locationLower.includes('hong kong') || 
+    locationLower.includes('taipei') || locationLower.includes('manila') || 
+    locationLower.includes('jakarta') || locationLower.includes('kuala lumpur') || 
+    locationLower.includes('riyadh') || locationLower.includes('doha') || 
+    locationLower.includes('japan') || locationLower.includes('china') || 
+    locationLower.includes('india') || locationLower.includes('korea') || 
+    locationLower.includes('thailand') || locationLower.includes('uae') || 
+    locationLower.includes('asia') || locationLower.includes('vietnam') ||
+    locationLower.includes('malaysia') || locationLower.includes('indonesia') ||
+    locationLower.includes('philippines') || locationLower.includes('pakistan') ||
+    locationLower.includes('lahore') || locationLower.includes('karachi') ||
+    locationLower.includes('islamabad') ||
+    
+    // Major Asian Cities
+    locationLower.includes('osaka') || locationLower.includes('yokohama') ||
+    locationLower.includes('nagoya') || locationLower.includes('kyoto') ||
+    locationLower.includes('fukuoka') || locationLower.includes('sapporo') ||
+    locationLower.includes('hiroshima') || locationLower.includes('sendai') ||
+    locationLower.includes('guangzhou') || locationLower.includes('shenzhen') ||
+    locationLower.includes('tianjin') || locationLower.includes('wuhan') ||
+    locationLower.includes('chengdu') || locationLower.includes('nanjing') ||
+    locationLower.includes('xian') || locationLower.includes('hangzhou') ||
+    locationLower.includes('suzhou') || locationLower.includes('qingdao') ||
+    locationLower.includes('dalian') || locationLower.includes('kunming') ||
+    locationLower.includes('kolkata') || locationLower.includes('chennai') ||
+    locationLower.includes('bangalore') || locationLower.includes('hyderabad') ||
+    locationLower.includes('ahmedabad') || locationLower.includes('pune') ||
+    locationLower.includes('surat') || locationLower.includes('jaipur') ||
+    locationLower.includes('lucknow') || locationLower.includes('kanpur') ||
+    locationLower.includes('nagpur') || locationLower.includes('indore') ||
+    locationLower.includes('bhopal') || locationLower.includes('patna') ||
+    locationLower.includes('vadodara') || locationLower.includes('ludhiana') ||
+    locationLower.includes('agra') || locationLower.includes('varanasi') ||
+    locationLower.includes('chandigarh') || locationLower.includes('coimbatore') ||
+    locationLower.includes('kochi') || locationLower.includes('guwahati') ||
+    locationLower.includes('bhubaneswar') || locationLower.includes('faisalabad') ||
+    locationLower.includes('rawalpindi') || locationLower.includes('gujranwala') ||
+    locationLower.includes('peshawar') || locationLower.includes('multan') ||
+    locationLower.includes('quetta') || locationLower.includes('sialkot') ||
+    locationLower.includes('sargodha') || locationLower.includes('bahawalpur') ||
+    locationLower.includes('busan') || locationLower.includes('incheon') ||
+    locationLower.includes('daegu') || locationLower.includes('daejeon') ||
+    locationLower.includes('gwangju') || locationLower.includes('ulsan') ||
+    locationLower.includes('suwon') || locationLower.includes('pyongyang') ||
+    locationLower.includes('ho chi minh city') || locationLower.includes('saigon') ||
+    locationLower.includes('hanoi') || locationLower.includes('haiphong') ||
+    locationLower.includes('da nang') || locationLower.includes('can tho') ||
+    locationLower.includes('cebu city') || locationLower.includes('davao') ||
+    locationLower.includes('caloocan') || locationLower.includes('zamboanga') ||
+    locationLower.includes('quezon city') || locationLower.includes('makati') ||
+    locationLower.includes('surabaya') || locationLower.includes('medan') ||
+    locationLower.includes('bandung') || locationLower.includes('bekasi') ||
+    locationLower.includes('tangerang') || locationLower.includes('semarang') ||
+    locationLower.includes('palembang') || locationLower.includes('makassar') ||
+    locationLower.includes('yogyakarta') || locationLower.includes('denpasar') ||
+    locationLower.includes('george town') || locationLower.includes('ipoh') ||
+    locationLower.includes('johor bahru') || locationLower.includes('kota kinabalu') ||
+    locationLower.includes('kuching') || locationLower.includes('chiang mai') ||
+    locationLower.includes('phuket') || locationLower.includes('pattaya') ||
+    locationLower.includes('abu dhabi') || locationLower.includes('sharjah') ||
+    locationLower.includes('jeddah') || locationLower.includes('mecca') ||
+    locationLower.includes('medina') || locationLower.includes('dammam') ||
+    locationLower.includes('manama') || locationLower.includes('kuwait city') ||
+    locationLower.includes('muscat') || locationLower.includes('amman') ||
+    locationLower.includes('damascus') || locationLower.includes('aleppo') ||
+    locationLower.includes('beirut') || locationLower.includes('baghdad') ||
+    locationLower.includes('basra') || locationLower.includes('mosul') ||
+    locationLower.includes('erbil') || locationLower.includes('tehran') ||
+    locationLower.includes('mashhad') || locationLower.includes('isfahan') ||
+    locationLower.includes('shiraz') || locationLower.includes('tabriz') ||
+    locationLower.includes('kabul') || locationLower.includes('kandahar') ||
+    locationLower.includes('herat') || locationLower.includes('colombo') ||
+    locationLower.includes('dhaka') || locationLower.includes('chittagong') ||
+    locationLower.includes('sylhet') || locationLower.includes('yangon') ||
+    locationLower.includes('mandalay') || locationLower.includes('phnom penh') ||
+    locationLower.includes('siem reap') || locationLower.includes('vientiane') ||
+    locationLower.includes('almaty') || locationLower.includes('nur sultan') ||
+    locationLower.includes('tashkent') || locationLower.includes('bishkek') ||
+    locationLower.includes('dushanbe') || locationLower.includes('ashgabat') ||
+    locationLower.includes('yerevan') || locationLower.includes('baku') ||
+    locationLower.includes('tbilisi') ||
+    
+    // Countries and Regions
+    locationLower.includes('saudi arabia') || locationLower.includes('iran') ||
+    locationLower.includes('iraq') || locationLower.includes('israel') ||
+    locationLower.includes('palestine') || locationLower.includes('jordan') ||
+    locationLower.includes('lebanon') || locationLower.includes('syria') ||
+    locationLower.includes('turkey') || locationLower.includes('cyprus') ||
+    locationLower.includes('armenia') || locationLower.includes('azerbaijan') ||
+    locationLower.includes('georgia') || locationLower.includes('afghanistan') ||
+    locationLower.includes('bangladesh') || locationLower.includes('bhutan') ||
+    locationLower.includes('nepal') || locationLower.includes('sri lanka') ||
+    locationLower.includes('maldives') || locationLower.includes('myanmar') ||
+    locationLower.includes('cambodia') || locationLower.includes('laos') ||
+    locationLower.includes('mongolia') || locationLower.includes('north korea') ||
+    locationLower.includes('south korea') || locationLower.includes('taiwan') ||
+    locationLower.includes('brunei') || locationLower.includes('east timor') ||
+    locationLower.includes('timor leste') || locationLower.includes('kazakhstan') ||
+    locationLower.includes('uzbekistan') || locationLower.includes('turkmenistan') ||
+    locationLower.includes('kyrgyzstan') || locationLower.includes('tajikistan') ||
+    locationLower.includes('bahrain') || locationLower.includes('kuwait') ||
+    locationLower.includes('oman') || locationLower.includes('qatar') ||
+    locationLower.includes('yemen') || locationLower.includes('middle east') ||
+    locationLower.includes('southeast asia') || locationLower.includes('south asia') ||
+    locationLower.includes('east asia') || locationLower.includes('central asia') ||
+    locationLower.includes('western asia') || locationLower.includes('far east') ||
+    locationLower.includes('arabian peninsula') || locationLower.includes('levant') ||
+    locationLower.includes('caucasus') || locationLower.includes('persian gulf') ||
+    locationLower.includes('gulf states') || locationLower.includes('gcc') ||
+    locationLower.includes('subcontinent') || locationLower.includes('indochina') ||
+    locationLower.includes('siberia')) {
+    
+    return "Asia";
+}
     
     // Africa
     if (locationLower.includes('cairo') || locationLower.includes('lagos') || 
